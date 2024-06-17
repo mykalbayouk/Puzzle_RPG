@@ -1,0 +1,101 @@
+
+import 'package:flame/components.dart';
+import 'package:flutter/services.dart';
+import 'package:puzzle_rpg/characters/person.dart';
+import 'package:puzzle_rpg/components/mechanic.dart';
+import 'package:puzzle_rpg/maps/dungeons/dungeon_entrance.dart';
+import 'package:puzzle_rpg/utilities/util.dart';
+
+class MainChar extends Person with KeyboardHandler{
+  MainChar() : super(type: 'Characters', name: 'Boy', speed: 200);
+
+  bool disableMovement = false;
+
+  List<DungeonEntrance> dungeons = [];
+  List<Mechanic> mechanics = [];
+
+  @override
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+
+    horizontalMovement = 0;
+    verticalMovement = 0;
+
+    final isKeyDown = keysPressed.isNotEmpty;
+
+    
+
+    final isLeft = keysPressed.contains(LogicalKeyboardKey.arrowLeft) || keysPressed.contains(LogicalKeyboardKey.keyA);
+    final isRight = keysPressed.contains(LogicalKeyboardKey.arrowRight) || keysPressed.contains(LogicalKeyboardKey.keyD);
+    final isUp = keysPressed.contains(LogicalKeyboardKey.arrowUp) || keysPressed.contains(LogicalKeyboardKey.keyW);
+    final isDown = keysPressed.contains(LogicalKeyboardKey.arrowDown) || keysPressed.contains(LogicalKeyboardKey.keyS);
+    final isSpace = keysPressed.contains(LogicalKeyboardKey.space);
+
+    final isE = keysPressed.contains(LogicalKeyboardKey.keyE);
+
+    if (isKeyDown){
+
+      isIdle = false;
+      horizontalMovement += isRight ? 1 : 0;
+      horizontalMovement -= isLeft  ? 1 : 0;
+      verticalMovement += isDown  ? 1 : 0;
+      verticalMovement -= isUp ? 1 : 0;
+
+      if(isE){
+        animation = interact;
+        _checkIfMech();
+      }
+
+      if(isSpace){
+        isAttacking = true;
+      } 
+    } else {
+      isIdle = true;
+    }
+
+    return super.onKeyEvent(event, keysPressed);
+
+    
+    
+  }
+  
+
+  
+  @override
+  void update(double dt) {
+
+    super.update(dt);
+    _checkIfDungeon();  
+  }
+  
+  void _checkIfDungeon() {
+    for(final dungeon in dungeons) {
+      if(checkCollision(this, dungeon)) {
+        velocity = Vector2.zero();
+        game.loadNewLevel(1);
+        break;
+      }
+    }
+  }
+  
+  void _checkIfMech() {
+    for(final mech in mechanics) {
+      if(isNear(this, mech)) {
+        mech.trigger();
+        print('Mechanic triggered');
+        break;
+      }
+    }
+    
+  }
+  
+
+}
+
+bool isNear(MainChar mainChar, Mechanic mech) {
+  // Check if the main character is near the mechanic
+  return mainChar.position.distanceTo(mech.position) < 16;
+}
+
+  
+
+
