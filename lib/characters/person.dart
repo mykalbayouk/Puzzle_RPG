@@ -1,5 +1,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/geometry.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzle_rpg/components/collision_block.dart';
 import 'package:puzzle_rpg/components/player_hitbox.dart';
@@ -10,12 +11,17 @@ enum PlayerState { idle, walk, attack }
 
 enum Direction { up, down, left, right }
 
-class Person extends SpriteAnimationComponent
-    with HasGameRef<PuzRPG> {
+enum CollisionSide { top, bottom, left, right, none }
+
+class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
   String type;
   String name;
   double speed;
-  Person({super.position, required this.type, required this.name, required this.speed});
+  Person(
+      {super.position,
+      required this.type,
+      required this.name,
+      required this.speed});
 
   late final SpriteAnimation idleUp;
   late final SpriteAnimation walkUp;
@@ -47,7 +53,6 @@ class Person extends SpriteAnimationComponent
   late double moveSpeed;
   Vector2 velocity = Vector2.zero();
   late LogicalKeyboardKey priorityKey;
-
 
   List<CollisionBlock> collisions = [];
 
@@ -177,11 +182,21 @@ class Person extends SpriteAnimationComponent
 
   void _checkVerticalCollisions() {
     for (final collision in collisions) {
-      if (checkCollision(this, collision)) {       
+      if (checkCollision(this, collision)) {
         if (velocity.y > 0) {
-          position.y = collision.position.y - hitbox.offsetY - hitbox.height;
+          if (velocity.x == 0) {
+            position.y = collision.position.y - hitbox.offsetY - hitbox.height;
+          } else {
+            _handleDiagonalPosition(collision);
+            break;
+          }
         } else if (velocity.y < 0) {
-          position.y = collision.position.y + collision.size.y;
+          if (velocity.x == 0) {
+            position.y = collision.position.y + collision.size.y;
+          } else {
+            _handleDiagonalPosition(collision);
+            break;
+          }
         }
         velocity.y = 0;
         break;
@@ -189,19 +204,74 @@ class Person extends SpriteAnimationComponent
     }
   }
 
-  void _checkHorizontalCollisions()  {
+  void _checkHorizontalCollisions() {
     for (final collision in collisions) {
-
       if (checkCollision(this, collision)) {
-
         if (velocity.x > 0) {
-          position.x = collision.position.x - hitbox.offsetX - hitbox.width;
+          if (velocity.y == 0) {
+            position.x = collision.position.x - hitbox.offsetX - hitbox.width;
+          } else {
+            _handleDiagonalPosition(collision);
+            break;
+          }
         } else if (velocity.x < 0) {
-          position.x = collision.position.x + collision.size.x;
-        } 
+          if (velocity.y == 0) {
+            position.x = collision.position.x + collision.size.x;
+          } else {
+            _handleDiagonalPosition(collision);
+            break;
+          }
+        }
         velocity.x = 0;
         break;
       }
+    }
+  }
+
+
+  CollisionSide _getCollisionSide(CollisionBlock collision) {
+    final playerX = position.x + hitbox.offsetX;
+  final playerY = position.y + hitbox.offsetY;
+  final playerWidth = hitbox.width;
+  final playerHeight = hitbox.height;
+
+  final blockX = collision.position.x;
+  final blockY = collision.position.y;
+  final blockWidth = collision.size.x;
+  final blockHeight = collision.size.y;
+    if (playerX + playerWidth > blockX && playerX < blockX) {
+      return CollisionSide.left;
+    } else if (playerX < blockX + blockWidth &&
+        playerX + playerWidth > blockX + blockWidth) {
+      return CollisionSide.right;
+    } else if (playerY < blockY + blockHeight &&
+        playerY + playerHeight > blockY + blockHeight) {
+      return CollisionSide.bottom;
+    } else if (playerY + playerHeight > blockY && playerY < blockY) {
+      return CollisionSide.top;
+    }
+
+
+    return CollisionSide.none;
+  }
+
+  void _handleDiagonalPosition(CollisionBlock collision) {
+    final side = _getCollisionSide(collision);
+    switch (side) {
+      case CollisionSide.top:
+        position.y = collision.position.y - hitbox.offsetY - hitbox.height;
+        break;
+      case CollisionSide.bottom:
+        position.y = collision.position.y + collision.size.y;
+        break;
+      case CollisionSide.left:
+        position.x = collision.position.x - hitbox.offsetX - hitbox.width;
+        break;
+      case CollisionSide.right:
+        position.x = collision.position.x + collision.size.x;
+        break;
+      case CollisionSide.none:
+        break;
     }
   }
 }

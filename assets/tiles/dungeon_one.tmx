@@ -50,17 +50,17 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,1939,1162,1940,1150,1940,1163,1940,1940,1164,1941
+0,0,0,0,0,0,0,0,0,0,0,1162,0,1150,0,1163,0,0,1164,0,
+0,0,0,0,0,0,0,0,0,0,1939,1971,1940,1971,1940,1971,1940,1940,1971,1941
 </data>
  </layer>
  <objectgroup id="5" name="Mechs">
-  <object id="12" name="blue" type="blue_cy" x="208.531" y="304.265" width="14.6919" height="14.6919"/>
-  <object id="14" name="red" type="red_cy" x="241.469" y="304.502" width="14.6919" height="14.6919"/>
-  <object id="15" name="button" type="main_button" x="288.863" y="304.028" width="14.6919" height="14.6919"/>
-  <object id="16" name="yellow" type="yellow_cy" x="176.066" y="304.028" width="14.6919" height="14.6919"/>
+  <object id="12" name="blue" type="blue_cy" x="207.455" y="288.036" width="17.1935" height="17.1476"/>
+  <object id="14" name="yellow" type="yellow_cy" x="240.35" y="287.714" width="14.6919" height="14.6919"/>
+  <object id="15" name="button" type="main_button" x="285.764" y="288.079" width="19.7707" height="16.8685"/>
+  <object id="16" name="red" type="red_cy" x="176.066" y="288.079" width="16.3328" height="18.7196"/>
  </objectgroup>
- <objectgroup id="2" name="Spawnpoints">
+ <objectgroup id="2" name="Spawnpoints" visible="0">
   <object id="6" name="Player" type="Player" x="21.763" y="279.161" width="34.673" height="31.2512"/>
   <object id="25" name="enemy" type="enemy" x="16.5" y="139.5" width="16" height="16">
    <properties>
@@ -104,17 +104,13 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="Collisions">
-  <object id="2" name="test" type="coll" x="160" y="305" width="17" height="14"/>
+  <object id="2" name="test" type="coll" x="135.12" y="294.647" width="188.222" height="23.1899"/>
   <object id="3" x="353.081" y="41.7062" width="1.4218"/>
   <object id="7" name="test" type="coll" x="208.294" y="0.710709" width="112.322" height="159.242"/>
   <object id="8" name="test" type="coll" x="0.237104" y="-0.474081" width="208.531" height="31.7538"/>
-  <object id="17" name="test" type="coll" x="80.8057" y="95.0235" width="63.0332" height="175.356"/>
-  <object id="18" name="test" type="coll" x="190.995" y="305" width="17" height="14"/>
-  <object id="19" name="test" type="coll" x="224" y="305" width="17" height="14"/>
-  <object id="20" name="test" type="coll" x="256.75" y="305.25" width="32" height="14"/>
-  <object id="21" name="test" type="coll" x="303" y="305" width="16" height="14"/>
-  <object id="22" name="test" type="coll" x="0.236972" y="25.3554" width="2.84359" height="292.891"/>
-  <object id="23" name="test" type="coll" x="1.89574" y="317.062" width="156.872" height="1.8959"/>
-  <object id="24" name="test" type="coll" x="317.786" y="161.218" width="2.84359" height="158.294"/>
+  <object id="17" name="test" type="coll" x="80.8057" y="95.0235" width="63.0332" height="234.394"/>
+  <object id="22" name="test" type="coll" x="-5.38724" y="16.0082" width="7.83409" height="306.991"/>
+  <object id="23" name="test" type="coll" x="-5.39197" y="316.824" width="329.029" height="6.17346"/>
+  <object id="24" name="test" type="coll" x="303.795" y="134.915" width="20.0993" height="185.685"/>
  </objectgroup>
 </map>

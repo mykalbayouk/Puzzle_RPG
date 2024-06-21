@@ -46,10 +46,6 @@ class PuzRPG extends FlameGame
     }
 
 
-
-
-
-
     super.update(dt);
   }
 
@@ -110,7 +106,7 @@ class PuzRPG extends FlameGame
       ]);
       inital = false;
     } else {
-    await Future.delayed(const Duration(milliseconds: 2000), () {
+    await Future.delayed(const Duration(milliseconds: 200), () {
       Level world = levels[index];
       _loadCamera(world);
       add(camera);
