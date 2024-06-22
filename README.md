@@ -1,6 +1,10 @@
 # puzzle_rpg
 
 # Current Bugs
-- [ ] Loading into a new level causes the player to not load into the new level
+- [X] Loading into a new level causes the player to not load into the new level
 - [X] Diagonal Collisions have teleportation issues
-- [ ] Enemies Movement is janky
+- [X] Enemies Movement is janky
+- [ ] Enemies can move through walls
+- [X] When exiting dungeon, player is still "in dungeon":
+    correct level is displayed but the object layers are still from prior level.
+    -- fix to this is just rebuilding the level each time which right now seems like the right design choice since when you enter a room enemies will respawn and the room will be reset.

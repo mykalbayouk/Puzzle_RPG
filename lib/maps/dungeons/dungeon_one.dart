@@ -1,9 +1,11 @@
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:puzzle_rpg/components/collision_block.dart';
 import 'package:puzzle_rpg/components/mechanic.dart';
-import 'package:puzzle_rpg/maps/dungeons/dungeon.dart';
+import 'package:puzzle_rpg/maps/dungeons/dungeon_entrance.dart';
+import 'package:puzzle_rpg/maps/level.dart';
 
-class DungeonOne extends Dungeon {
+class DungeonOne extends Level {
   
 
   DungeonOne({required super.char}) : super(levelName: 'dungeon_one');
@@ -18,8 +20,7 @@ class DungeonOne extends Dungeon {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-
+    
 
     final mechsLayer = level.tileMap.getLayer<ObjectGroup>('Mechs');
     for(final mech in mechsLayer!.objects) {
@@ -61,6 +62,21 @@ class DungeonOne extends Dungeon {
       }
     }
     char.mechanics = mechs;
+
+    final exitLayer = level.tileMap.getLayer<ObjectGroup>('Exit');
+    for(final exit in exitLayer!.objects) {
+      switch(exit.class_) {
+        case 'exit':
+          final exitBlock = Entrance(
+            position: Vector2(exit.x, exit.y),
+            size: Vector2(exit.width, exit.height));          
+          add(exitBlock);
+          char.exits.add(exitBlock);
+          break;
+        default:
+          break;
+      }
+    }
     return super.onLoad();
   }
 

@@ -1,6 +1,4 @@
-import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/geometry.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzle_rpg/components/collision_block.dart';
 import 'package:puzzle_rpg/components/player_hitbox.dart';
@@ -65,15 +63,14 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
 
     moveSpeed = speed;
 
-    add(RectangleHitbox(
-      position: Vector2(hitbox.offsetX, hitbox.offsetY),
-      size: Vector2(hitbox.width, hitbox.height),
-    ));
+    // add(RectangleHitbox(
+    //   position: Vector2(hitbox.offsetX, hitbox.offsetY),
+    //   size: Vector2(hitbox.width, hitbox.height),
+    // ));
 
     priority = 1;
 
     debugMode = true;
-    animation = idleDown;
     return super.onLoad();
   }
 

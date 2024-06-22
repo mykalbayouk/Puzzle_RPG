@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/characters/person.dart';
@@ -19,7 +21,7 @@ class Enemy extends Person {
       position: myPos,
       type: 'Characters', 
       name: 'FighterRed', 
-      speed: 5
+      speed: 20
       );
 
   static const tileSize = 16.0;
@@ -29,12 +31,18 @@ class Enemy extends Person {
   double rangePosX = 0;
   double rangePosY = 0;
 
+  Vector2 spawnLocation = Vector2.zero();
+  Vector2 currentTarget = Vector2.zero();
+  bool movingToTarget = true; // true if moving to target, false if returning to spawn
+
+
   late final MainChar player;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     _calculateRange();    
+    spawnLocation = position.clone(); // Assuming 'position' is the current position of the enemy
     player = game.player;
   }
 
@@ -45,35 +53,54 @@ class Enemy extends Person {
   }
 
   void _movement(double dt) {
-    double playerOffsetX = (player.scale.x > 0) ? 0 : -player.width;
-    double playerOffsetY = (player.scale.y > 0) ? 0 : -player.height;
-    if (playerInRange()) {
-      print('player in range');
-      if (player.position.x + playerOffsetX < position.x) {
-        horizontalMovement += -1;
-      } else if (player.position.x + playerOffsetX > position.x) {
-        horizontalMovement += 1;
-      } else {
-        horizontalMovement = 0;
+    if (!playerInRange()) {
+      if (currentTarget == Vector2.zero() || _reachedTarget()) {
+        if (movingToTarget) {
+          currentTarget = _generateRandomPosition();
+        } else {
+          currentTarget = spawnLocation.clone();
+        }
+        movingToTarget = !movingToTarget; // Toggle the movement direction
       }
-      if (player.position.y + playerOffsetY < position.y) {
-        verticalMovement += -1;
-      } else if (player.position.y + playerOffsetY > position.y) {
-        verticalMovement += 1;
-      } else {
-        verticalMovement = 0;
-      }
+      moveToward(currentTarget, dt);
     } else {
-      horizontalMovement = 0;
-      verticalMovement = 0;
+      // Implement your attack logic here
+      // TODO: Attack the player
     }
   }
+
+  bool _reachedTarget() {
+    // Assuming there's a method to calculate the distance to the current target
+    // and a small threshold to determine if the enemy has "reached" the target
+    return position.distanceTo(currentTarget) < 1.0; // Example threshold
+  }
+
+  void moveToward(Vector2 target, double dt) {
+    // Implement your movement logic here
+    // This should move the enemy towards 'target' at a slow pace
+    Vector2 direction = target - position;
+    if (direction.length > 1) {
+      direction.normalize();
+      // Assuming there's a speed property that defines how fast the enemy moves
+      position += direction * speed * dt;
+    }
+  }
+
+  Vector2 _generateRandomPosition() {
+    // Your existing method to generate a random position within the range
+    double randomX = rangeNegX + (rangePosX - rangeNegX) * Random().nextDouble();
+    double randomY = rangeNegY + (rangePosY - rangeNegY) * Random().nextDouble();
+    return Vector2(randomX, randomY);
+  }
+
   
   void _calculateRange() {
     rangeNegX = position.x - offNegX * tileSize;
     rangeNegY = position.y - offNegY * tileSize;
     rangePosX = position.x + offPosX * tileSize;
     rangePosY = position.y + offPosY * tileSize;
+
+    
   }
 
   bool playerInRange() {
@@ -82,5 +109,6 @@ class Enemy extends Person {
         player.position.y >= rangeNegY &&
         player.position.y <= rangePosY;
   }
+
 
 }

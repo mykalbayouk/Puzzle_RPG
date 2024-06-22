@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="34">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="37">
  <tileset firstgid="1" source="main_map.tsx"/>
  <tileset firstgid="573" source="TilesetWater.tsx"/>
  <tileset firstgid="1049" source="TilesetFloorB.tsx"/>
@@ -51,54 +51,57 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,1162,0,1150,0,1163,0,0,1164,0,
-0,0,0,0,0,0,0,0,0,0,1939,1971,1940,1971,1940,1971,1940,1940,1971,1941
+0,0,3221227348,0,0,0,0,0,0,0,1939,1971,1940,1971,1940,1971,1940,1940,1971,1941
 </data>
  </layer>
  <objectgroup id="5" name="Mechs">
   <object id="12" name="blue" type="blue_cy" x="207.455" y="288.036" width="17.1935" height="17.1476"/>
   <object id="14" name="yellow" type="yellow_cy" x="240.35" y="287.714" width="14.6919" height="14.6919"/>
-  <object id="15" name="button" type="main_button" x="285.764" y="288.079" width="19.7707" height="16.8685"/>
+  <object id="15" name="button" type="main_button" x="285.764" y="288.079" width="37.8694" height="16.8685"/>
   <object id="16" name="red" type="red_cy" x="176.066" y="288.079" width="16.3328" height="18.7196"/>
  </objectgroup>
- <objectgroup id="2" name="Spawnpoints" visible="0">
-  <object id="6" name="Player" type="Player" x="21.763" y="279.161" width="34.673" height="31.2512"/>
-  <object id="25" name="enemy" type="enemy" x="16.5" y="139.5" width="16" height="16">
+ <objectgroup id="7" name="Exit">
+  <object id="35" name="exit" type="exit" x="32.1754" y="303.655" width="16.0877" height="18.0986"/>
+ </objectgroup>
+ <objectgroup id="2" name="Spawnpoints">
+  <object id="6" name="Player" type="Player" x="22.2658" y="256.538" width="34.673" height="31.2512"/>
+  <object id="25" name="enemy" type="enemy" x="32" y="145" width="16" height="16">
    <properties>
-    <property name="offNegX" type="float" value="0"/>
-    <property name="offNegY" type="float" value="0"/>
-    <property name="offPosX" type="float" value="3"/>
-    <property name="offPosY" type="float" value="3"/>
+    <property name="offNegX" type="float" value="1.5"/>
+    <property name="offNegY" type="float" value="3"/>
+    <property name="offPosX" type="float" value="1.5"/>
+    <property name="offPosY" type="float" value="5"/>
    </properties>
   </object>
   <object id="30" name="enemy" type="enemy" x="168.5" y="87.5" width="16" height="16">
    <properties>
-    <property name="offNegX" type="float" value="0"/>
+    <property name="offNegX" type="float" value="1"/>
     <property name="offNegY" type="float" value="3"/>
-    <property name="offPosX" type="float" value="0"/>
+    <property name="offPosX" type="float" value="1"/>
     <property name="offPosY" type="float" value="3"/>
    </properties>
   </object>
-  <object id="31" name="enemy" type="enemy" x="167.5" y="185" width="16" height="16">
+  <object id="31" name="enemy" type="enemy" x="168.899" y="230.05" width="16" height="16">
    <properties>
-    <property name="offNegX" type="float" value="0"/>
-    <property name="offNegY" type="float" value="0"/>
+    <property name="offNegX" type="float" value="1"/>
+    <property name="offNegY" type="float" value="3"/>
     <property name="offPosX" type="float" value="3"/>
-    <property name="offPosY" type="float" value="3"/>
+    <property name="offPosY" type="float" value="2"/>
    </properties>
   </object>
-  <object id="32" name="enemy" type="enemy" x="279.5" y="216.5" width="16" height="16">
+  <object id="32" name="enemy" type="enemy" x="247.881" y="185.441" width="16" height="16">
    <properties>
     <property name="offNegX" type="float" value="3"/>
-    <property name="offNegY" type="float" value="0"/>
-    <property name="offPosX" type="float" value="0"/>
-    <property name="offPosY" type="float" value="3"/>
+    <property name="offNegY" type="float" value="1"/>
+    <property name="offPosX" type="float" value="3"/>
+    <property name="offPosY" type="float" value="1"/>
    </properties>
   </object>
   <object id="33" name="enemy" type="enemy" x="56" y="54" width="16" height="16">
    <properties>
     <property name="offNegX" type="float" value="3"/>
-    <property name="offNegY" type="float" value="0"/>
-    <property name="offPosX" type="float" value="0"/>
+    <property name="offNegY" type="float" value="1"/>
+    <property name="offPosX" type="float" value="1"/>
     <property name="offPosY" type="float" value="3"/>
    </properties>
   </object>
@@ -107,10 +110,11 @@
   <object id="2" name="test" type="coll" x="135.12" y="294.647" width="188.222" height="23.1899"/>
   <object id="3" x="353.081" y="41.7062" width="1.4218"/>
   <object id="7" name="test" type="coll" x="208.294" y="0.710709" width="112.322" height="159.242"/>
-  <object id="8" name="test" type="coll" x="0.237104" y="-0.474081" width="208.531" height="31.7538"/>
+  <object id="8" name="test" type="coll" x="-5.79577" y="-0.474081" width="214.563" height="31.7538"/>
   <object id="17" name="test" type="coll" x="80.8057" y="95.0235" width="63.0332" height="234.394"/>
-  <object id="22" name="test" type="coll" x="-5.38724" y="16.0082" width="7.83409" height="306.991"/>
+  <object id="22" name="test" type="coll" x="-5.38724" y="-8.62609" width="7.83409" height="331.625"/>
   <object id="23" name="test" type="coll" x="-5.39197" y="316.824" width="329.029" height="6.17346"/>
-  <object id="24" name="test" type="coll" x="303.795" y="134.915" width="20.0993" height="185.685"/>
+  <object id="24" name="test" type="coll" x="314.855" y="-5.85179" width="9.03899" height="326.452"/>
+  <object id="34" name="test" type="coll" x="-5.64868" y="-6.60591" width="329.029" height="6.17346"/>
  </objectgroup>
 </map>

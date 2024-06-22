@@ -11,7 +11,8 @@ class MainChar extends Person with KeyboardHandler{
 
   bool disableMovement = false;
 
-  List<DungeonEntrance> dungeons = [];
+  List<Entrance> dungeons = [];
+  List<Entrance> exits = [];
   List<Mechanic> mechanics = [];
 
   @override
@@ -65,15 +66,24 @@ class MainChar extends Person with KeyboardHandler{
 
     super.update(dt);
     _checkIfDungeon();  
+    _checkIfExit();
   }
   
   void _checkIfDungeon() {
     for(final dungeon in dungeons) {
       if(checkCollision(this, dungeon)) {
-        velocity = Vector2.zero();
         game.loadNewLevel(1);
         break;
-      }
+      } 
+    }
+  }
+
+  void _checkIfExit() {
+    for(final exit in exits) {
+      if(checkCollision(this, exit)) {
+        game.loadNewLevel(0);
+        break;
+      } 
     }
   }
   

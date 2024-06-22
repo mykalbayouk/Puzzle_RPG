@@ -20,16 +20,10 @@ class PuzRPG extends FlameGame
 
   bool inital = true;
 
-  late List<Level> levels;
 
   @override
   Future<void> onLoad() async {
     await images.loadAllImages();
-
-    levels = [
-      MainMap(player: player),
-      DungeonOne(char: player),
-    ];
 
     _loadLevel();
 
@@ -44,7 +38,6 @@ class PuzRPG extends FlameGame
     if (showJoystick) {
       updateJoystick();
     }
-
 
     super.update(dt);
   }
@@ -83,7 +76,7 @@ class PuzRPG extends FlameGame
     }
   }
 
-  void _loadCamera(Level world) {
+  void _loadCamera(world) {
     // 250, 188
     camera = CameraComponent.withFixedResolution(
         world: world, width: 500, height: 500);
@@ -91,27 +84,27 @@ class PuzRPG extends FlameGame
     camera.follow(player);
   }
 
-  void loadNewLevel(int index) {
+  void loadNewLevel(int index) {    
     this.index = index;
     _loadLevel();
   }
 
-  void _loadLevel() async{
-    if (inital){
-      Level world = levels[index];
-      _loadCamera(world);
-      addAll([
-        world,
-        camera,
-      ]);
-      inital = false;
-    } else {
-    await Future.delayed(const Duration(milliseconds: 200), () {
-      Level world = levels[index];
-      _loadCamera(world);
-      add(camera);
-      add(world);
-    });
+  void _loadLevel() {    
+
+    switch (index) {
+      case 0:
+        final mainMap = MainMap(player: player);
+        add(mainMap);
+        _loadCamera(mainMap);
+        break;
+      case 1:
+        final dungeonOne = DungeonOne(char: player);
+        add(dungeonOne);
+        _loadCamera(dungeonOne);
+        break;
+      default:
+        break;
     }
+
   }
 }

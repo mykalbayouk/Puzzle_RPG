@@ -9,18 +9,20 @@ class MainMap extends Level {
 
   MainMap({required this.player}) : super(levelName: 'MainMap', char: player);
 
-  List<DungeonEntrance> dungeons = [];
+  List<Entrance> dungeons = [];
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+
+    print(player.position);
   
 
     final dungeonLayer = level.tileMap.getLayer<ObjectGroup>('Dungeons');
     for(final dung in dungeonLayer!.objects) {
       switch(dung.class_) {
         case 'dungeon':
-          final dungeon = DungeonEntrance(
+          final dungeon = Entrance(
             position: Vector2(dung.x, dung.y),
             size: Vector2(dung.width, dung.height),
           );
