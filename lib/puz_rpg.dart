@@ -4,7 +4,6 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/maps/dungeons/dungeon_one.dart';
-import 'package:puzzle_rpg/maps/level.dart';
 
 import 'package:puzzle_rpg/maps/main_map.dart';
 
@@ -18,7 +17,7 @@ class PuzRPG extends FlameGame
 
   int index = 0;
 
-  bool inital = true;
+  int playerSpawn = 0;
 
 
   @override
@@ -90,21 +89,24 @@ class PuzRPG extends FlameGame
   }
 
   void _loadLevel() {    
+    MainMap mainMap;
+    DungeonOne dungeonOne;
 
     switch (index) {
       case 0:
-        final mainMap = MainMap(player: player);
+        mainMap = MainMap(player: player, playerSpawn: playerSpawn);
         add(mainMap);
         _loadCamera(mainMap);
         break;
       case 1:
-        final dungeonOne = DungeonOne(char: player);
+        dungeonOne = DungeonOne(char: player);
         add(dungeonOne);
         _loadCamera(dungeonOne);
         break;
       default:
         break;
     }
+    
 
   }
 }

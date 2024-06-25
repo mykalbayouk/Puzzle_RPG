@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzle_rpg/components/collision_block.dart';
 import 'package:puzzle_rpg/components/player_hitbox.dart';
+import 'package:puzzle_rpg/components/weapon.dart';
 import 'package:puzzle_rpg/puz_rpg.dart';
 import 'package:puzzle_rpg/utilities/util.dart';
 
@@ -70,7 +73,7 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
 
     priority = 1;
 
-    debugMode = true;
+    debugMode = false;
     return super.onLoad();
   }
 
@@ -160,20 +163,70 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
     if (isAttacking) {
       switch (direction) {
         case Direction.up:
+          _attack(0);
           animation = attackUp;
           break;
         case Direction.down:
+          _attack(1);
           animation = attackDown;
           break;
         case Direction.left:
+          _attack(2);
           animation = attackLeft;
           break;
         case Direction.right:
+          _attack(3);
           animation = attackRight;
           break;
       }
-      animation!.loop = false;
       isAttacking = false;
+    }
+  }
+
+  // 0 - Up, 1 - Down, 2 - Left, 3 - Right
+  void _attack(int direction) {
+    // Implement your attack logic here
+    // current idea:
+    // seperate 4 directions into switch statement
+    // each case will create a new attack component but its rotation will be different based on direction
+    // the attack component will have a timer that will destroy it after a certain amount of time
+    // the attack component will have a hitbox that will check for collision with enemies
+    // if collision is detected, the enemy will take damage
+
+    Weapon weapon;
+    weapon = Weapon(position: _newDistance(direction), attackTime: .5);
+    switch (direction) {
+      case 0: 
+        weapon.scale.y = -1;
+        break;
+      case 1:
+        weapon.scale.y = 1;
+        break;
+      case 2:
+        weapon.scale.x = -1;
+        weapon.transform.angle = pi/2;
+        break;
+      case 3:
+        weapon.scale.x = 1;
+        weapon.transform.angle = pi* 3/2;
+        break;
+    }
+    add(weapon);
+
+  }
+
+  Vector2 _newDistance(int direction) {
+    switch (direction) {
+      case 0:
+        return Vector2(2, -1);
+      case 1:
+        return Vector2(2, 16);
+      case 2:
+        return Vector2(1, 14);
+      case 3:
+        return Vector2(15, 15);
+      default:
+        return Vector2.zero();
     }
   }
 

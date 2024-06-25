@@ -67,6 +67,7 @@ flutter:
     - assets/images/Actor/Characters/Eskimo/SeparateAnim/
     - assets/images/Actor/Characters/FighterRed/SeparateAnim/
     - assets/images/Actor/Characters/Samurai/SeparateAnim/
+    - assets/images/Items/Weapons/Katana/
     - assets/tiles/
     - assets/images/Backgrounds/Tilesets/
     - assets/images/HUD/

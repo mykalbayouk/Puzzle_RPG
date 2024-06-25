@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:puzzle_rpg/components/collision_block.dart';
 import 'package:puzzle_rpg/components/mechanic.dart';
 import 'package:puzzle_rpg/maps/dungeons/dungeon_entrance.dart';
 import 'package:puzzle_rpg/maps/level.dart';
@@ -16,6 +15,8 @@ class DungeonOne extends Level {
   late Mechanic button;
 
   List<Mechanic> mechs = [];
+
+  
 
   @override
   Future<void> onLoad() async {
