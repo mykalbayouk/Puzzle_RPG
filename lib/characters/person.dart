@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzle_rpg/components/collision_block.dart';
@@ -14,15 +15,18 @@ enum Direction { up, down, left, right }
 
 enum CollisionSide { top, bottom, left, right, none }
 
-class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
+class Person extends SpriteAnimationComponent
+    with HasGameRef<PuzRPG>, CollisionCallbacks {
   String type;
   String name;
   double speed;
+  int health;
   Person(
       {super.position,
       required this.type,
       required this.name,
-      required this.speed});
+      required this.speed,
+      required this.health});
 
   late final SpriteAnimation idleUp;
   late final SpriteAnimation walkUp;
@@ -46,6 +50,7 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
   Direction direction = Direction.down;
 
   bool isAttacking = false;
+  bool isBeingAttacked = false;
 
   final double stepTime = .1;
 
@@ -66,10 +71,10 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
 
     moveSpeed = speed;
 
-    // add(RectangleHitbox(
-    //   position: Vector2(hitbox.offsetX, hitbox.offsetY),
-    //   size: Vector2(hitbox.width, hitbox.height),
-    // ));
+    add(RectangleHitbox(
+      position: Vector2(hitbox.offsetX, hitbox.offsetY),
+      size: Vector2(hitbox.width, hitbox.height),
+    ));
 
     priority = 1;
 
@@ -79,7 +84,8 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
 
   @override
   void update(double dt) {
-    _updatePlayerMovement(dt);
+    if (!isAttacking) _updatePlayerMovement(dt);
+    if (isBeingAttacked) _personFlash(dt);
     _updateAttack();
     _checkHorizontalCollisions();
     _checkVerticalCollisions();
@@ -194,9 +200,13 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
     // if collision is detected, the enemy will take damage
 
     Weapon weapon;
-    weapon = Weapon(position: _newDistance(direction), attackTime: .5);
+    weapon = Weapon(
+        position: _newDistance(direction),
+        player: this,
+        type: 'Katana',
+        damage: 40);
     switch (direction) {
-      case 0: 
+      case 0:
         weapon.scale.y = -1;
         break;
       case 1:
@@ -204,27 +214,26 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
         break;
       case 2:
         weapon.scale.x = -1;
-        weapon.transform.angle = pi/2;
+        weapon.transform.angle = pi / 2;
         break;
       case 3:
         weapon.scale.x = 1;
-        weapon.transform.angle = pi* 3/2;
+        weapon.transform.angle = pi * 3 / 2;
         break;
     }
     add(weapon);
-
   }
 
   Vector2 _newDistance(int direction) {
     switch (direction) {
       case 0:
-        return Vector2(2, -1);
+        return Vector2(2, 0);
       case 1:
         return Vector2(2, 16);
       case 2:
-        return Vector2(1, 14);
+        return Vector2(0, 16);
       case 3:
-        return Vector2(15, 15);
+        return Vector2(16, 16);
       default:
         return Vector2.zero();
     }
@@ -237,14 +246,14 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
           if (velocity.x == 0) {
             position.y = collision.position.y - hitbox.offsetY - hitbox.height;
           } else {
-            _handleDiagonalPosition(collision);
+            handleDiagonalPosition(collision);
             break;
           }
         } else if (velocity.y < 0) {
           if (velocity.x == 0) {
             position.y = collision.position.y + collision.size.y;
           } else {
-            _handleDiagonalPosition(collision);
+            handleDiagonalPosition(collision);
             break;
           }
         }
@@ -261,14 +270,14 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
           if (velocity.y == 0) {
             position.x = collision.position.x - hitbox.offsetX - hitbox.width;
           } else {
-            _handleDiagonalPosition(collision);
+            handleDiagonalPosition(collision);
             break;
           }
         } else if (velocity.x < 0) {
           if (velocity.y == 0) {
             position.x = collision.position.x + collision.size.x;
           } else {
-            _handleDiagonalPosition(collision);
+            handleDiagonalPosition(collision);
             break;
           }
         }
@@ -278,17 +287,16 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
     }
   }
 
-
-  CollisionSide _getCollisionSide(CollisionBlock collision) {
+  CollisionSide _getCollisionSide(collision) {
     final playerX = position.x + hitbox.offsetX;
-  final playerY = position.y + hitbox.offsetY;
-  final playerWidth = hitbox.width;
-  final playerHeight = hitbox.height;
+    final playerY = position.y + hitbox.offsetY;
+    final playerWidth = hitbox.width;
+    final playerHeight = hitbox.height;
 
-  final blockX = collision.position.x;
-  final blockY = collision.position.y;
-  final blockWidth = collision.size.x;
-  final blockHeight = collision.size.y;
+    final blockX = collision.position.x;
+    final blockY = collision.position.y;
+    final blockWidth = collision.size.x;
+    final blockHeight = collision.size.y;
     if (playerX + playerWidth > blockX && playerX < blockX) {
       return CollisionSide.left;
     } else if (playerX < blockX + blockWidth &&
@@ -301,11 +309,10 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
       return CollisionSide.top;
     }
 
-
     return CollisionSide.none;
   }
 
-  void _handleDiagonalPosition(CollisionBlock collision) {
+  void handleDiagonalPosition(collision) {
     final side = _getCollisionSide(collision);
     switch (side) {
       case CollisionSide.top:
@@ -323,5 +330,27 @@ class Person extends SpriteAnimationComponent with HasGameRef<PuzRPG> {
       case CollisionSide.none:
         break;
     }
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Weapon && !isBeingAttacked) {
+      health -= other.damage;
+      isBeingAttacked = true;
+    }
+    super.onCollision(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    if (other is Weapon) isBeingAttacked = false;
+    super.onCollisionEnd(other);
+  }
+
+  void _personFlash(double dt) {
+    opacity = 0.5;
+    Future.delayed(const Duration(milliseconds: 100), () {
+      opacity = 1;
+    });
   }
 }

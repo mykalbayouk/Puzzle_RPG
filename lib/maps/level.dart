@@ -27,7 +27,7 @@ class Level extends World {
 
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
     
-    debugMode = false;
+    debugMode = true;
 
     add(level);
 
@@ -73,6 +73,8 @@ class Level extends World {
           break;
       }
     }
+
+    char.enemies = enemies;
     char.collisions = collisions;
     return super.onLoad();
   }

@@ -1,19 +1,29 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:puzzle_rpg/characters/person.dart';
 import 'package:puzzle_rpg/puz_rpg.dart';
 
-class Weapon extends SpriteComponent with HasGameRef<PuzRPG> {
-  late double attackTime;
 
-  Weapon({required Vector2 position, required this.attackTime}) {
-    attackTime = attackTime;
+class Weapon extends SpriteComponent with HasGameRef<PuzRPG>, CollisionCallbacks  {
+  late Person player;
+  late String type;
+  late int damage;
+
+  Weapon({required Vector2 position, 
+  required this.player,
+  required this.type,
+  required this.damage
+  }) {
+    player = player;
+    type = type;
+    damage = damage;
     this.position = position;
   }
-
-  double ticker = 0;
 
   @override
   Future<void> onLoad() async {
     _loadSprite();
+    add(RectangleHitbox());
     debugMode = false;
 
     return super.onLoad();
@@ -21,8 +31,7 @@ class Weapon extends SpriteComponent with HasGameRef<PuzRPG> {
 
   @override
   void update(double dt) {
-    ticker += dt;
-    if (ticker >= attackTime) {
+    if(player.isIdle){
       removeFromParent();
     }
 
@@ -31,7 +40,7 @@ class Weapon extends SpriteComponent with HasGameRef<PuzRPG> {
 
 
   void _loadSprite() async{
-        sprite = Sprite(gameRef.images.fromCache('Items/Weapons/Katana/SpriteInHand.png'));
+        sprite = Sprite(gameRef.images.fromCache('Items/Weapons/$type/SpriteInHand.png'));
     }
   }
 

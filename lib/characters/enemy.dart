@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
@@ -21,7 +22,8 @@ class Enemy extends Person {
       position: myPos,
       type: 'Characters', 
       name: 'FighterRed', 
-      speed: 20
+      speed: 20,
+      health: 50,
       );
 
   static const tileSize = 16.0;
@@ -50,6 +52,7 @@ class Enemy extends Person {
   void update(double dt) {
     super.update(dt);
     _movement(dt);
+    _manageHealth();
   }
 
   void _movement(double dt) {
@@ -65,7 +68,7 @@ class Enemy extends Person {
       moveToward(currentTarget, dt);
     } else {
       // Implement your attack logic here
-      // TODO: Attack the player
+      // TODO: Attack the player90
     }
   }
 
@@ -108,6 +111,15 @@ class Enemy extends Person {
         player.position.x <= rangePosX &&
         player.position.y >= rangeNegY &&
         player.position.y <= rangePosY;
+  }
+  
+  void _manageHealth() {
+    if (health <= 0) {
+      // Implement your logic when the enemy's health reaches 0
+      // This could include removing the enemy from the game
+      // or playing a death animation
+      removeFromParent();
+    }
   }
 
 
