@@ -11,14 +11,15 @@
         "MainMap.tmx": {
             "expandedObjectLayers": [
                 17,
+                19,
                 6,
                 14
             ],
-            "scale": 1.5,
-            "selectedLayer": 8,
+            "scale": 1.5169,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 945,
-                "y": 885.3333333333333
+                "x": 1260.4654229019714,
+                "y": 264.02531478673615
             }
         },
         "Pipes.tsx": {
@@ -28,14 +29,15 @@
         "dungeon_one.tmx": {
             "expandedObjectLayers": [
                 2,
+                7,
                 3,
                 5
             ],
             "scale": 1.9891,
-            "selectedLayer": 3,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 110.35141521291035,
-                "y": 164.39595797094165
+                "x": 106.58086571816398,
+                "y": 160.62540847619528
             }
         },
         "houses.tsx": {
@@ -53,9 +55,10 @@
     ],
     "project": "puzzle_rpg.tiled-project",
     "recentFiles": [
+        "dungeon_one.tmx",
+        "MainMap.tmx",
         "Pipes.tsx",
-        "houses.tsx",
-        "MainMap.tmx"
+        "houses.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
