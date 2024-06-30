@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="248">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="20" nextobjectid="251">
  <tileset firstgid="1" source="main_map.tsx"/>
  <tileset firstgid="573" source="TilesetWater.tsx"/>
  <tileset firstgid="1049" source="TilesetHouse.tsx"/>
@@ -737,23 +737,23 @@
 </data>
  </layer>
  <objectgroup id="17" name="Dungeons">
-  <object id="239" name="dungeonTR" type="dungeon" x="810.667" y="751" width="23.6667" height="18"/>
+  <object id="239" name="dungeonTR" type="dungeon" x="1388" y="109.667" width="23.6667" height="18"/>
  </objectgroup>
  <objectgroup id="14" name="Collisions">
   <object id="38" name="house" type="coll" x="737.5" y="689.5" width="61.5" height="45.5"/>
-  <object id="40" name="house" type="coll" x="929.25" y="709" width="63.5" height="40"/>
-  <object id="41" name="house" type="coll" x="863.75" y="709" width="63.5" height="40"/>
+  <object id="40" name="house" type="coll" x="923.317" y="709" width="69.4332" height="40"/>
+  <object id="41" name="house" type="coll" x="863.75" y="709" width="74.0478" height="40"/>
   <object id="42" name="house" type="coll" x="863.25" y="800.074" width="49.5496" height="47.5817"/>
   <object id="43" name="house" type="coll" x="626.423" y="528.699" width="59.0115" height="78.9241"/>
   <object id="44" name="house" type="coll" x="1183.38" y="834.239" width="49.5496" height="47.5817"/>
   <object id="45" name="forest" type="coll" x="1198.49" y="283.275" width="147.616" height="61.2179"/>
   <object id="46" name="house" type="coll" x="1248.51" y="222.498" width="49.5496" height="32.3023"/>
-  <object id="47" name="house" type="coll" x="1231.32" y="143.049" width="65.0639" height="49.2928"/>
-  <object id="48" name="house" type="coll" x="1424.35" y="81.5278" width="48.1458" height="46.1266"/>
+  <object id="47" name="house" type="coll" x="1231.32" y="143.049" width="69.0194" height="49.2928"/>
+  <object id="48" name="house" type="coll" x="1417.76" y="81.5278" width="54.7382" height="46.1266"/>
   <object id="49" name="house" type="coll" x="1396.03" y="217.405" width="58.6444" height="37.3955"/>
   <object id="50" name="house" type="coll" x="1472.22" y="222.021" width="46.7409" height="33.769" rotation="1.68868"/>
   <object id="51" name="house" type="coll" x="1488.8" y="173.744" width="46.7409" height="33.769" rotation="1.68868"/>
-  <object id="52" name="house" type="coll" x="1523.59" y="15.7967" width="57.5089" height="80.2073" rotation="1.68868"/>
+  <object id="52" name="house" type="coll" x="1524.04" y="0.627922" width="81.929" height="95.3827" rotation="1.68868"/>
   <object id="54" name="forest" type="coll" x="1183.53" y="333.058" width="288.949" height="71.2179"/>
   <object id="55" name="forest" type="coll" x="1214.86" y="471.724" width="256.949" height="71.2179"/>
   <object id="56" name="forest" type="coll" x="1266.19" y="401.724" width="205.616" height="71.2179"/>
@@ -933,11 +933,14 @@
   <object id="236" name="house" type="coll" x="1375.26" y="80.6034" width="48.1458" height="28.7933"/>
   <object id="237" name="house" type="coll" x="1376.59" y="96.27" width="8.81247" height="30.7933"/>
   <object id="238" name="house" type="coll" x="1414.43" y="96.6034" width="7.81247" height="30.7933"/>
-  <object id="242" name="house" type="coll" x="1297.47" y="82.6869" width="47.7306" height="79.9595"/>
+  <object id="242" name="house" type="coll" x="1292.85" y="82.6869" width="52.3453" height="79.9595"/>
   <object id="243" name="terrain" type="coll" x="1214.86" y="1536.22" width="63.615" height="63.551"/>
   <object id="244" name="terrain" type="coll" x="1052.19" y="1531.56" width="63.615" height="63.551"/>
  </objectgroup>
- <objectgroup id="6" name="Spawnpoints" visible="0">
-  <object id="13" name="Player" type="Player" x="762" y="757" width="56" height="54"/>
+ <objectgroup id="6" name="Spawnpoints">
+  <object id="13" name="Player" type="Player" x="760.334" y="760.829" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="19" name="Exits">
+  <object id="250" name="duneon_one_exit" type="Exit_TR" x="1392.08" y="128.645" width="15.8232" height="15.5508"/>
  </objectgroup>
 </map>

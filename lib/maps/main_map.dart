@@ -6,17 +6,19 @@ import 'package:puzzle_rpg/maps/level.dart';
 
 class MainMap extends Level {
   MainChar player;
+  int playerSpawn;
 
-  MainMap({required this.player}) : super(levelName: 'MainMap', char: player);
+  MainMap({required this.player, required this.playerSpawn}) : super(levelName: 'MainMap', char: player);
 
   List<Entrance> dungeons = [];
+
+  // TR(Top Right) - 0 (Index), BR(Bottom Right) - 1, BL(Bottom Left) - 2, TL(Top Left) - 3
+  List<Vector2> playerSpawns = [];
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    print(player.position);
-  
 
     final dungeonLayer = level.tileMap.getLayer<ObjectGroup>('Dungeons');
     for(final dung in dungeonLayer!.objects) {
@@ -34,6 +36,35 @@ class MainMap extends Level {
       }
     }
     char.dungeons = dungeons;
+
+
+    final exitsLayer = level.tileMap.getLayer<ObjectGroup>('Exits');
+    for(final exit in exitsLayer!.objects) {
+      switch(exit.class_) {
+        case 'Exit_TR':
+          playerSpawns.add(Vector2(exit.x, exit.y));
+          break;
+        default:
+          break;
+      }
+    }
+
+    _choosePlayerSpawn(); 
+
+  }
+
+  void _choosePlayerSpawn() {
+    switch(playerSpawn) {
+      case 1:
+        player.position = playerSpawns[0];
+        break;
+      case 2:
+        player.position = playerSpawns[1];
+        break;
+      case 3:
+        player.position = playerSpawns[2];
+        break;
+    }
   }
   
 }

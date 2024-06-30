@@ -21,3 +21,8 @@ bool checkCollision(player, block) {
       fixedY + playerHeight > blockY);
 }
 
+bool isNear(mainChar, mech) {
+  // Check if the main character is near the mechanic
+  return mainChar.position.distanceTo(mech.position) < 16;
+}
+

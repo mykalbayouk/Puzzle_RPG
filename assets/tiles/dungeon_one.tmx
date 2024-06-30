@@ -65,44 +65,44 @@
  </objectgroup>
  <objectgroup id="2" name="Spawnpoints">
   <object id="6" name="Player" type="Player" x="22.2658" y="256.538" width="34.673" height="31.2512"/>
-  <object id="25" name="enemy" type="enemy" x="32" y="145" width="16" height="16">
+  <object id="25" name="enemy" type="enemy" x="63.1699" y="159.579" width="16" height="16">
    <properties>
-    <property name="offNegX" type="float" value="1.5"/>
+    <property name="offNegX" type="float" value="3.5"/>
     <property name="offNegY" type="float" value="3"/>
-    <property name="offPosX" type="float" value="1.5"/>
-    <property name="offPosY" type="float" value="5"/>
+    <property name="offPosX" type="float" value="0"/>
+    <property name="offPosY" type="float" value="4"/>
    </properties>
   </object>
-  <object id="30" name="enemy" type="enemy" x="168.5" y="87.5" width="16" height="16">
+  <object id="30" name="enemy" type="enemy" x="190.118" y="55.3246" width="16" height="16">
    <properties>
-    <property name="offNegX" type="float" value="1"/>
-    <property name="offNegY" type="float" value="3"/>
-    <property name="offPosX" type="float" value="1"/>
+    <property name="offNegX" type="float" value="2.5"/>
+    <property name="offNegY" type="float" value="0"/>
+    <property name="offPosX" type="float" value="0"/>
+    <property name="offPosY" type="float" value="6"/>
+   </properties>
+  </object>
+  <object id="31" name="enemy" type="enemy" x="145.773" y="215.973" width="16" height="16">
+   <properties>
+    <property name="offNegX" type="float" value="0"/>
+    <property name="offNegY" type="float" value="0"/>
+    <property name="offPosX" type="float" value="6"/>
     <property name="offPosY" type="float" value="3"/>
    </properties>
   </object>
-  <object id="31" name="enemy" type="enemy" x="168.899" y="230.05" width="16" height="16">
+  <object id="32" name="enemy" type="enemy" x="280.056" y="162.817" width="16" height="16">
    <properties>
-    <property name="offNegX" type="float" value="1"/>
-    <property name="offNegY" type="float" value="3"/>
-    <property name="offPosX" type="float" value="3"/>
+    <property name="offNegX" type="float" value="8"/>
+    <property name="offNegY" type="float" value="0"/>
+    <property name="offPosX" type="float" value="0"/>
     <property name="offPosY" type="float" value="2"/>
    </properties>
   </object>
-  <object id="32" name="enemy" type="enemy" x="247.881" y="185.441" width="16" height="16">
+  <object id="33" name="enemy" type="enemy" x="3.71505" y="42.9397" width="16" height="16">
    <properties>
-    <property name="offNegX" type="float" value="3"/>
-    <property name="offNegY" type="float" value="1"/>
+    <property name="offNegX" type="float" value="0"/>
+    <property name="offNegY" type="float" value="0"/>
     <property name="offPosX" type="float" value="3"/>
-    <property name="offPosY" type="float" value="1"/>
-   </properties>
-  </object>
-  <object id="33" name="enemy" type="enemy" x="56" y="54" width="16" height="16">
-   <properties>
-    <property name="offNegX" type="float" value="3"/>
-    <property name="offNegY" type="float" value="1"/>
-    <property name="offPosX" type="float" value="1"/>
-    <property name="offPosY" type="float" value="3"/>
+    <property name="offPosY" type="float" value="2"/>
    </properties>
   </object>
  </objectgroup>

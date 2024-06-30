@@ -1,5 +1,9 @@
 # puzzle_rpg
 
+# Task
+- [ ] Figma Create HP Bar (increments of 10 hp = 1 tick)
+- [ ] Figma Create XP Bar (increments of 10 xp = 1 tick)
+
 # Current Bugs
 - [X] Loading into a new level causes the player to not load into the new level
 - [X] Diagonal Collisions have teleportation issues

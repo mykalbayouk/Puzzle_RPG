@@ -4,21 +4,21 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/maps/dungeons/dungeon_one.dart';
-import 'package:puzzle_rpg/maps/level.dart';
 
 import 'package:puzzle_rpg/maps/main_map.dart';
 
 class PuzRPG extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   @override
-  Color backgroundColor() => Color.fromARGB(255, 33, 28, 54);
+  Color backgroundColor() => const Color(0x00000000);
   MainChar player = MainChar();
   late JoystickComponent joystick;
   bool showJoystick = false;
 
   int index = 0;
 
-  bool inital = true;
+  int playerSpawn = 1;
+  bool gameOver = false;
 
 
   @override
@@ -26,10 +26,11 @@ class PuzRPG extends FlameGame
     await images.loadAllImages();
 
     _loadLevel();
-
     if (showJoystick) {
       addJoyStick();
     }
+
+    debugMode = false;
     return super.onLoad();
   }
 
@@ -39,6 +40,7 @@ class PuzRPG extends FlameGame
       updateJoystick();
     }
 
+    _gameOver();
     super.update(dt);
   }
 
@@ -79,7 +81,7 @@ class PuzRPG extends FlameGame
   void _loadCamera(world) {
     // 250, 188
     camera = CameraComponent.withFixedResolution(
-        world: world, width: 500, height: 500);
+        world: world, width: 300, height: 300);
     camera.viewfinder.anchor = Anchor.center;
     camera.follow(player);
   }
@@ -90,15 +92,17 @@ class PuzRPG extends FlameGame
   }
 
   void _loadLevel() {    
+    MainMap mainMap;
+    DungeonOne dungeonOne;
 
     switch (index) {
       case 0:
-        final mainMap = MainMap(player: player);
+        mainMap = MainMap(player: player, playerSpawn: playerSpawn);
         add(mainMap);
         _loadCamera(mainMap);
         break;
       case 1:
-        final dungeonOne = DungeonOne(char: player);
+        dungeonOne = DungeonOne(char: player);
         add(dungeonOne);
         _loadCamera(dungeonOne);
         break;
@@ -106,5 +110,16 @@ class PuzRPG extends FlameGame
         break;
     }
 
+  }
+
+  void _gameOver() {
+    if (gameOver) {
+      removeAll(children);
+      playerSpawn = 0;
+      player = MainChar();
+      loadNewLevel(0);
+
+      gameOver = false;
+    }
   }
 }

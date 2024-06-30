@@ -4,6 +4,7 @@ import 'package:puzzle_rpg/characters/enemy.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/components/collision_block.dart';
 
+
 class Level extends World {
   String levelName;
   final MainChar char;
@@ -26,8 +27,6 @@ class Level extends World {
     
 
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
-    
-    debugMode = true;
 
     add(level);
 
@@ -73,6 +72,8 @@ class Level extends World {
           break;
       }
     }
+
+    char.enemies = enemies;
     char.collisions = collisions;
     return super.onLoad();
   }
