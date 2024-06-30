@@ -5,7 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzle_rpg/components/collision_block.dart';
 import 'package:puzzle_rpg/components/player_hitbox.dart';
-import 'package:puzzle_rpg/components/weapon.dart';
+import 'package:puzzle_rpg/tools/weapon.dart';
 import 'package:puzzle_rpg/puz_rpg.dart';
 import 'package:puzzle_rpg/utilities/util.dart';
 
@@ -61,6 +61,8 @@ class Person extends SpriteAnimationComponent
   late LogicalKeyboardKey priorityKey;
 
   List<CollisionBlock> collisions = [];
+
+  double exp = 0;
 
   PlayerHitbox hitbox =
       PlayerHitbox(offsetX: 1, offsetY: 1, width: 14, height: 14);

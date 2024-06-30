@@ -2,12 +2,14 @@ import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:puzzle_rpg/characters/enemy.dart';
 import 'package:puzzle_rpg/characters/person.dart';
+import 'package:puzzle_rpg/components/heart_manager.dart';
 import 'package:puzzle_rpg/components/mechanic.dart';
 import 'package:puzzle_rpg/maps/dungeons/dungeon_entrance.dart';
+import 'package:puzzle_rpg/tools/bar.dart';
 import 'package:puzzle_rpg/utilities/util.dart';
 
 class MainChar extends Person with KeyboardHandler {
-  MainChar() : super(type: 'Characters', name: 'Boy', speed: 300, health: 1000);
+  MainChar() : super(type: 'Characters', name: 'Boy', speed: 300, health: 100);
 
   List<Entrance> dungeons = [];
   List<Entrance> exits = [];
@@ -16,9 +18,13 @@ class MainChar extends Person with KeyboardHandler {
 
   double ticker = 0;
 
-  double exp = 0;
-  
+  @override
+  Future<void> onLoad() async {
+    _loadBars();
 
+    return super.onLoad();
+  }
+  
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     horizontalMovement = 0;
@@ -117,6 +123,23 @@ class MainChar extends Person with KeyboardHandler {
     if (health <= 0) {
       game.gameOver = true;
     }
+  }
+  
+  void _loadBars() {
+    double x = -game.cameraWidth / 2 + 5;
+    double y = -game.cameraHeight / 2 + 5;
+
+    final healthBar = HeartManager(position: Vector2(x,y), maxHearts: 4, padding: .5, player: this);
+    add(healthBar);
+
+    final manaBar = Bar(
+      position: Vector2(x - 5, y + 16),
+      type: 'Exp',
+      char: this,
+      name: 'player',
+    );
+    add(manaBar);
+
   }
 
 }

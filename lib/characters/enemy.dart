@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/characters/person.dart';
+import 'package:puzzle_rpg/tools/bar.dart';
 import 'package:puzzle_rpg/tools/exp.dart';
 import 'package:puzzle_rpg/utilities/util.dart';
 
@@ -47,6 +48,8 @@ class Enemy extends Person {
   Future<void> onLoad() async {
     await super.onLoad();
     _calculateRange();
+
+    _loadHealthBar();
     spawnLocation = position
         .clone(); // Assuming 'position' is the current position of the enemy
     player = game.player;
@@ -170,7 +173,7 @@ class Enemy extends Person {
   void _attackPlayer() {
     speed = 0;
     animation!.loop = false;
-    final ani;
+    SpriteAnimation ani;
     switch (direction) {
       case Direction.up:
         ani = attackUp;
@@ -194,8 +197,12 @@ class Enemy extends Person {
     });
     Future.delayed(const Duration(milliseconds: 1000), () {
       if (checkCollision(this, player)) {
-        player.health -= 1;
+        player.health -= .1;
       }
     });
+  }
+  
+  void _loadHealthBar() {
+    add(Bar(position: Vector2(4,  -.5), type: 'Health', char: this, name: 'enemy'));
   }
 }

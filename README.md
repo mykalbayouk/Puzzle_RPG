@@ -1,8 +1,11 @@
 # puzzle_rpg
 
 # Task
-- [ ] Figma Create HP Bar (increments of 10 hp = 1 tick)
-- [ ] Figma Create XP Bar (increments of 10 xp = 1 tick)
+- [ ] Adjust Mana Bar to different design
+- [ ] Create Leveling System
+- [ ] Create Dialogue System
+- [ ] Design 3 other Dungeons and give Mechs to main dung
+- [ ] Create a Boss Dungeon
 
 # Current Bugs
 - [X] Loading into a new level causes the player to not load into the new level

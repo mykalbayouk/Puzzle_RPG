@@ -73,6 +73,9 @@ flutter:
     - assets/tiles/
     - assets/images/Backgrounds/Tilesets/
     - assets/images/HUD/
+    - assets/images/Ui/Health/
+    - assets/images/Ui/Exp/
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

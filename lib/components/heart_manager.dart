@@ -1,0 +1,76 @@
+import 'dart:ffi';
+
+import 'package:flame/components.dart';
+import 'package:puzzle_rpg/characters/main_char.dart';
+import 'package:puzzle_rpg/tools/hearts.dart';
+
+class HeartManager extends PositionComponent {
+  final int maxHearts;
+  final double padding;
+  final List<Hearts> hearts = [];
+  final MainChar player;
+
+  HeartManager({
+    required Vector2 position,
+    required this.maxHearts,
+    required this.padding,
+    required this.player,
+  }) {
+    this.position = position;
+  }
+
+  late double maxHealth;
+  late double healthPerHeart;
+
+  @override
+  Future<void> onLoad() async {
+    size = Vector2(16 * maxHearts + padding * (maxHearts - 1), 16);
+
+    maxHealth = player.health;
+    healthPerHeart = maxHealth / maxHearts;
+
+    double x = 0;
+    double y = 0;
+    // heart manager will load at the start 4 hearts in a row
+    // when the player is max level it will have 8 hearts in a row
+    // each heart will be a size of 16x16
+
+    for (var i = 0; i < maxHearts; i++) {
+      hearts.add(Hearts(
+        position: Vector2(x, y),
+      ));
+      x += 16 + padding;
+    }
+
+    addAll(hearts);
+    return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    _updateHearts();
+    super.update(dt);
+  }
+
+  void _updateHearts() {
+    double health = player.health;
+    int fullHearts = (health / healthPerHeart).floor();
+    double remainder = health % healthPerHeart;
+
+    for (var i = 0; i < maxHearts; i++) {
+      if (i < fullHearts) {
+        hearts[i].sprite = hearts[i].fullHeart;
+      } else if (i == fullHearts && remainder > 0) {
+        if (remainder >= (3 * healthPerHeart / 4)) {
+          hearts[i].sprite = hearts[i].tFHeart;
+        } else if (remainder >= healthPerHeart / 2) {
+          hearts[i].sprite = hearts[i].halfHeart;
+        } else {
+          hearts[i].sprite = hearts[i].oFHeart;
+        }
+      } else {
+        hearts[i].sprite = hearts[i].emptyHeart;
+      }
+    }
+  }
+}

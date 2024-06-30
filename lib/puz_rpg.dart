@@ -15,6 +15,9 @@ class PuzRPG extends FlameGame
   late JoystickComponent joystick;
   bool showJoystick = false;
 
+  double cameraWidth = 250;
+  double cameraHeight = 188;
+
   int index = 0;
 
   int playerSpawn = 1;
@@ -81,7 +84,7 @@ class PuzRPG extends FlameGame
   void _loadCamera(world) {
     // 250, 188
     camera = CameraComponent.withFixedResolution(
-        world: world, width: 300, height: 300);
+        world: world, width: cameraWidth, height: cameraHeight);
     camera.viewfinder.anchor = Anchor.center;
     camera.follow(player);
   }
