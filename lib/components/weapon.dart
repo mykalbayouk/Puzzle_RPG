@@ -23,7 +23,11 @@ class Weapon extends SpriteComponent with HasGameRef<PuzRPG>, CollisionCallbacks
   @override
   Future<void> onLoad() async {
     _loadSprite();
-    add(RectangleHitbox());
+    add(RectangleHitbox(
+      size: Vector2(13, 13),
+      position: Vector2(0, 0),
+
+    ));
     debugMode = false;
 
     return super.onLoad();

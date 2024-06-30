@@ -20,7 +20,7 @@ class Person extends SpriteAnimationComponent
   String type;
   String name;
   double speed;
-  int health;
+  double health;
   Person(
       {super.position,
       required this.type,
@@ -87,8 +87,8 @@ class Person extends SpriteAnimationComponent
     if (!isAttacking) _updatePlayerMovement(dt);
     if (isBeingAttacked) _personFlash(dt);
     _updateAttack();
-    _checkHorizontalCollisions();
-    _checkVerticalCollisions();
+    checkHorizontalCollisions(collisions);    
+    checkVerticalCollisions(collisions);
     super.update(dt);
   }
 
@@ -132,16 +132,16 @@ class Person extends SpriteAnimationComponent
   void _updatePlayerMovement(double dt) {
     velocity.x = horizontalMovement * moveSpeed;
     velocity.y = verticalMovement * moveSpeed;
-    if (velocity.y < 0) {
+    if (velocity.y < 0 && velocity.y.abs() > velocity.x.abs()){
       animation = walkUp;
       direction = Direction.up;
-    } else if (velocity.y > 0) {
+    } else if (velocity.y > 0 && velocity.y.abs() > velocity.x.abs()){
       animation = walkDown;
       direction = Direction.down;
-    } else if (velocity.x < 0) {
+    } else if (velocity.x < 0 && velocity.x.abs() > velocity.y.abs()){
       animation = walkLeft;
       direction = Direction.left;
-    } else if (velocity.x > 0) {
+    } else if (velocity.x > 0 && velocity.x.abs() > velocity.y.abs()){
       animation = walkRight;
       direction = Direction.right;
     } else if (isIdle) {
@@ -229,18 +229,18 @@ class Person extends SpriteAnimationComponent
       case 0:
         return Vector2(2, 0);
       case 1:
-        return Vector2(2, 16);
+        return Vector2(2, 17);
       case 2:
         return Vector2(0, 16);
       case 3:
-        return Vector2(16, 16);
+        return Vector2(17, 16);
       default:
         return Vector2.zero();
     }
   }
 
-  void _checkVerticalCollisions() {
-    for (final collision in collisions) {
+  void checkVerticalCollisions(coll) {
+    for (final collision in coll) {
       if (checkCollision(this, collision)) {
         if (velocity.y > 0) {
           if (velocity.x == 0) {
@@ -263,8 +263,8 @@ class Person extends SpriteAnimationComponent
     }
   }
 
-  void _checkHorizontalCollisions() {
-    for (final collision in collisions) {
+  void checkHorizontalCollisions(coll) {
+    for (final collision in coll) {
       if (checkCollision(this, collision)) {
         if (velocity.x > 0) {
           if (velocity.y == 0) {
@@ -353,4 +353,5 @@ class Person extends SpriteAnimationComponent
       opacity = 1;
     });
   }
+  
 }

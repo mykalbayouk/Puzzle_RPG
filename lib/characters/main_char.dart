@@ -7,7 +7,7 @@ import 'package:puzzle_rpg/maps/dungeons/dungeon_entrance.dart';
 import 'package:puzzle_rpg/utilities/util.dart';
 
 class MainChar extends Person with KeyboardHandler {
-  MainChar() : super(type: 'Characters', name: 'Boy', speed: 300, health: 100);
+  MainChar() : super(type: 'Characters', name: 'Boy', speed: 300, health: 1000);
 
   List<Entrance> dungeons = [];
   List<Entrance> exits = [];
@@ -15,6 +15,9 @@ class MainChar extends Person with KeyboardHandler {
   List<Enemy> enemies = [];
 
   double ticker = 0;
+
+  double exp = 0;
+  
 
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
@@ -70,7 +73,9 @@ class MainChar extends Person with KeyboardHandler {
     super.update(dt);
     _checkIfDungeon();
     _checkIfExit();
-    _checkIfEnemy();
+    checkHorizontalCollisions(enemies);
+    checkVerticalCollisions(enemies);
+    _checkHealth();
   }
 
   void _checkIfDungeon() {
@@ -107,44 +112,11 @@ class MainChar extends Person with KeyboardHandler {
       }
     }
   }
-
-  void _checkIfEnemy() {
-    for (final enemy in enemies) {
-      if (checkCollision(this, enemy)) {
-        if (velocity.y > 0) {
-          if (velocity.x == 0) {
-            position.y = enemy.position.y - hitbox.offsetY - hitbox.height;
-          } else {
-            handleDiagonalPosition(enemy);
-            break;
-          }
-        } else if (velocity.y < 0) {
-          if (velocity.x == 0) {
-            position.y = enemy.position.y + enemy.size.y;
-          } else {
-            handleDiagonalPosition(enemy);
-            break;
-          }
-        }
-        if (velocity.x > 0) {
-          if (velocity.y == 0) {
-            position.x = enemy.position.x - hitbox.offsetX - hitbox.width;
-          } else {
-            handleDiagonalPosition(enemy);
-            break;
-          }
-        } else if (velocity.x < 0) {
-          if (velocity.y == 0) {
-            position.x = enemy.position.x + enemy.size.x;
-          } else {
-            handleDiagonalPosition(enemy);
-            break;
-          }
-        }
-        velocity.x = 0;
-        velocity.y = 0;
-        break;
-      }
+  
+  void _checkHealth() {
+    if (health <= 0) {
+      game.gameOver = true;
     }
   }
+
 }

@@ -64,10 +64,12 @@ flutter:
   assets:
     - assets/images/Actor/Characters/Boy/SeparateAnim/
     - assets/images/Actor/Characters/DemonRed/SeparateAnim/
-    - assets/images/Actor/Characters/Eskimo/SeparateAnim/
+    - assets/images/Actor/Characters/SkeletonDemon/SeparateAnim/
     - assets/images/Actor/Characters/FighterRed/SeparateAnim/
     - assets/images/Actor/Characters/Samurai/SeparateAnim/
+    - assets/images/Actor/Characters/Tengu/SeparateAnim/
     - assets/images/Items/Weapons/Katana/
+    - assets/images/Items/Food/
     - assets/tiles/
     - assets/images/Backgrounds/Tilesets/
     - assets/images/HUD/

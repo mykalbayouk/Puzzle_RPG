@@ -1,9 +1,10 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/characters/person.dart';
+import 'package:puzzle_rpg/tools/exp.dart';
+import 'package:puzzle_rpg/utilities/util.dart';
 
 class Enemy extends Person {
   Vector2 myPos;
@@ -12,22 +13,24 @@ class Enemy extends Person {
   final double offPosX;
   final double offPosY;
   Enemy({
-    required this.myPos, 
-    this.offNegX = 0, 
+    required this.myPos,
+    this.offNegX = 0,
     this.offNegY = 0,
     this.offPosX = 0,
     this.offPosY = 0,
-    }) : 
-    super(
-      position: myPos,
-      type: 'Characters', 
-      name: 'FighterRed', 
-      speed: 20,
-      health: 50,
-      );
+  }) : super(
+          position: myPos,
+          type: 'Characters',
+          name: 'SkeletonDemon',
+          speed: 20,
+          health: 50,
+        );
 
   static const tileSize = 16.0;
-  
+
+  double speedAvg = 0;
+  double speedPlayer = 0;
+
   double rangeNegX = 0;
   double rangeNegY = 0;
   double rangePosX = 0;
@@ -35,17 +38,20 @@ class Enemy extends Person {
 
   Vector2 spawnLocation = Vector2.zero();
   Vector2 currentTarget = Vector2.zero();
-  bool movingToTarget = true; // true if moving to target, false if returning to spawn
-
+  bool movingToTarget =
+      true; // true if moving to target, false if returning to spawn
 
   late final MainChar player;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    _calculateRange();    
-    spawnLocation = position.clone(); // Assuming 'position' is the current position of the enemy
+    _calculateRange();
+    spawnLocation = position
+        .clone(); // Assuming 'position' is the current position of the enemy
     player = game.player;
+    speedAvg = speed;
+    speedPlayer = speed * 2;
   }
 
   @override
@@ -53,10 +59,19 @@ class Enemy extends Person {
     super.update(dt);
     _movement(dt);
     _manageHealth();
+    checkHorizontalCollisions(collisions);
+    checkVerticalCollisions(collisions);
+  }
+
+  @override
+  void onRemove() {
+    player.enemies.remove(this);
+    super.onRemove();
   }
 
   void _movement(double dt) {
     if (!playerInRange()) {
+      speed = speedAvg;
       if (currentTarget == Vector2.zero() || _reachedTarget()) {
         if (movingToTarget) {
           currentTarget = _generateRandomPosition();
@@ -67,8 +82,12 @@ class Enemy extends Person {
       }
       moveToward(currentTarget, dt);
     } else {
-      // Implement your attack logic here
-      // TODO: Attack the player90
+      if (!checkCollision(this, player)) {
+        speed = speedPlayer;
+        moveToward(_outSidePlayerPos(), dt);
+      } else {
+        _attackPlayer();
+      }
     }
   }
 
@@ -83,27 +102,40 @@ class Enemy extends Person {
     // This should move the enemy towards 'target' at a slow pace
     Vector2 direction = target - position;
     if (direction.length > 1) {
+      isIdle = false;
       direction.normalize();
-      // Assuming there's a speed property that defines how fast the enemy moves
+      // need to adjust the animation depending on the direction
+      if (direction.x > 0 && direction.x.abs() > direction.y.abs()) {
+        animation = walkRight;
+        this.direction = Direction.right;
+      } else if (direction.x < 0 && direction.x.abs() > direction.y.abs()) {
+        animation = walkLeft;
+        this.direction = Direction.left;
+      } else if (direction.y > 0 && direction.y.abs() > direction.x.abs()) {
+        animation = walkDown;
+        this.direction = Direction.down;
+      } else if (direction.y < 0 && direction.y.abs() > direction.x.abs()) {
+        animation = walkUp;
+        this.direction = Direction.up;
+      }
       position += direction * speed * dt;
     }
   }
 
   Vector2 _generateRandomPosition() {
     // Your existing method to generate a random position within the range
-    double randomX = rangeNegX + (rangePosX - rangeNegX) * Random().nextDouble();
-    double randomY = rangeNegY + (rangePosY - rangeNegY) * Random().nextDouble();
+    double randomX =
+        rangeNegX + (rangePosX - rangeNegX) * Random().nextDouble();
+    double randomY =
+        rangeNegY + (rangePosY - rangeNegY) * Random().nextDouble();
     return Vector2(randomX, randomY);
   }
 
-  
   void _calculateRange() {
     rangeNegX = position.x - offNegX * tileSize;
     rangeNegY = position.y - offNegY * tileSize;
     rangePosX = position.x + offPosX * tileSize;
     rangePosY = position.y + offPosY * tileSize;
-
-    
   }
 
   bool playerInRange() {
@@ -112,15 +144,58 @@ class Enemy extends Person {
         player.position.y >= rangeNegY &&
         player.position.y <= rangePosY;
   }
-  
+
   void _manageHealth() {
     if (health <= 0) {
-      // Implement your logic when the enemy's health reaches 0
-      // This could include removing the enemy from the game
-      // or playing a death animation
+      parent?.add(Exp(position: position, value: speedAvg/4));
       removeFromParent();
     }
   }
 
+  Vector2 _outSidePlayerPos() {
+    switch (direction) {
+      case Direction.up:
+        return Vector2(player.position.x, player.position.y - 1);
+      case Direction.down:
+        return Vector2(player.position.x, player.position.y + 1);
+      case Direction.left:
+        return Vector2(player.position.x - 1, player.position.y);
+      case Direction.right:
+        return Vector2(player.position.x + 1, player.position.y);
+      default:
+        return Vector2(player.position.x, player.position.y);
+    }
+  }
 
+  void _attackPlayer() {
+    speed = 0;
+    animation!.loop = false;
+    final ani;
+    switch (direction) {
+      case Direction.up:
+        ani = attackUp;
+        break;
+      case Direction.down:
+        ani = attackDown;
+        break;
+      case Direction.left:
+        ani = attackLeft;
+        break; 
+      case Direction.right:
+        ani = attackRight;
+        break;
+      default:
+        ani = attackDown;
+        break;
+    }
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      animation = ani;
+    });
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      if (checkCollision(this, player)) {
+        player.health -= 1;
+      }
+    });
+  }
 }
