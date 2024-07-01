@@ -9,7 +9,7 @@ import 'package:puzzle_rpg/tools/exp_bar.dart';
 import 'package:puzzle_rpg/utilities/util.dart';
 
 class MainChar extends Person with KeyboardHandler {
-  MainChar() : super(type: 'Characters', name: 'Boy', speed: 1, health: 100);
+  MainChar() : super(type: 'Characters', name: 'Boy', speed: 300, health: 100);
 
   List<Entrance> dungeons = [];
   List<Entrance> exits = [];

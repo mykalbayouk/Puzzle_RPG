@@ -13,7 +13,7 @@ class PuzRPG extends FlameGame
   Color backgroundColor() => const Color.fromARGB(255, 255, 255, 255);
   MainChar player = MainChar();
   late JoystickComponent joystick;
-  bool showJoystick = true;
+  bool showJoystick = false;
 
   double cameraWidth = 250;
   double cameraHeight = 188;
