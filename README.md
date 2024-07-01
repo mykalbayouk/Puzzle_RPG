@@ -1,8 +1,8 @@
 # puzzle_rpg
 
 # Task
-- [ ] Adjust Mana Bar to different design
-- [ ] Create Leveling System
+- [X] Adjust Mana Bar to different design
+- [X] Create Leveling System
 - [ ] Create Dialogue System
 - [ ] Design 3 other Dungeons and give Mechs to main dung
 - [ ] Create a Boss Dungeon

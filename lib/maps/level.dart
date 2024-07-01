@@ -77,4 +77,5 @@ class Level extends World {
     char.collisions = collisions;
     return super.onLoad();
   }
+
 }

@@ -5,7 +5,7 @@ import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/tools/hearts.dart';
 
 class HeartManager extends PositionComponent {
-  final int maxHearts;
+  int maxHearts;
   final double padding;
   final List<Hearts> hearts = [];
   final MainChar player;
@@ -31,9 +31,7 @@ class HeartManager extends PositionComponent {
 
     double x = 0;
     double y = 0;
-    // heart manager will load at the start 4 hearts in a row
-    // when the player is max level it will have 8 hearts in a row
-    // each heart will be a size of 16x16
+
 
     for (var i = 0; i < maxHearts; i++) {
       hearts.add(Hearts(
@@ -65,12 +63,16 @@ class HeartManager extends PositionComponent {
           hearts[i].sprite = hearts[i].tFHeart;
         } else if (remainder >= healthPerHeart / 2) {
           hearts[i].sprite = hearts[i].halfHeart;
-        } else {
+        } else if (remainder >= healthPerHeart / 4) {
           hearts[i].sprite = hearts[i].oFHeart;
+        } else {
+          hearts[i].sprite = hearts[i].emptyHeart;
         }
-      } else {
-        hearts[i].sprite = hearts[i].emptyHeart;
       }
     }
+  }
+
+  void increaseMaxHearts() {
+    maxHearts++;
   }
 }

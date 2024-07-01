@@ -44,6 +44,11 @@ class Enemy extends Person {
 
   late final MainChar player;
 
+  bool attackPlayer = false;
+  bool stopUpdating = false;
+
+  double ticker = 0;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -59,16 +64,21 @@ class Enemy extends Person {
 
   @override
   void update(double dt) {
+    if (!stopUpdating) { 
     super.update(dt);
     _movement(dt);
     _manageHealth();
     checkHorizontalCollisions(collisions);
     checkVerticalCollisions(collisions);
+    _updateCanAttack();
+    ticker += dt;
+    }
   }
 
   @override
   void onRemove() {
     player.enemies.remove(this);
+    stopUpdating = true;
     super.onRemove();
   }
 
@@ -170,7 +180,7 @@ class Enemy extends Person {
     }
   }
 
-  void _attackPlayer() {
+  void _attackPlayer() async {
     speed = 0;
     animation!.loop = false;
     SpriteAnimation ani;
@@ -192,17 +202,24 @@ class Enemy extends Person {
         break;
     }
 
-    Future.delayed(const Duration(milliseconds: 500), () {
-      animation = ani;
-    });
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      if (checkCollision(this, player)) {
-        player.health -= .1;
-      }
-    });
+    animation = ani;
+
+    await animationTicker!.completed;
+
+    if (checkCollision(this, player) && !attackPlayer) {
+        player.health -= 1;
+        attackPlayer = true;
+    }
   }
   
   void _loadHealthBar() {
-    add(Bar(position: Vector2(4,  -.5), type: 'Health', char: this, name: 'enemy'));
+    add(Bar(position: Vector2(4,  -.5), char: this));
+  }
+  
+  void _updateCanAttack() {
+    if (ticker - 5 > 0) {
+      ticker = 0;
+      attackPlayer = false;
+    }
   }
 }

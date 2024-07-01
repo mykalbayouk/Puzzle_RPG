@@ -5,11 +5,11 @@ import 'package:puzzle_rpg/characters/person.dart';
 import 'package:puzzle_rpg/components/heart_manager.dart';
 import 'package:puzzle_rpg/components/mechanic.dart';
 import 'package:puzzle_rpg/maps/dungeons/dungeon_entrance.dart';
-import 'package:puzzle_rpg/tools/bar.dart';
+import 'package:puzzle_rpg/tools/exp_bar.dart';
 import 'package:puzzle_rpg/utilities/util.dart';
 
 class MainChar extends Person with KeyboardHandler {
-  MainChar() : super(type: 'Characters', name: 'Boy', speed: 300, health: 100);
+  MainChar() : super(type: 'Characters', name: 'Boy', speed: 1, health: 100);
 
   List<Entrance> dungeons = [];
   List<Entrance> exits = [];
@@ -18,8 +18,24 @@ class MainChar extends Person with KeyboardHandler {
 
   double ticker = 0;
 
+  double exp = 0;
+
+  int level = 1;
+
+  double expToNextLevel = 100;
+
+  late HeartManager healthBar;
+
+
+  late double xBar;
+  late double yBar;
+
+  
+
   @override
   Future<void> onLoad() async {
+    xBar = -game.cameraWidth / 2 + 5;
+    yBar = -game.cameraHeight / 2 + 5;
     _loadBars();
 
     return super.onLoad();
@@ -82,6 +98,7 @@ class MainChar extends Person with KeyboardHandler {
     checkHorizontalCollisions(enemies);
     checkVerticalCollisions(enemies);
     _checkHealth();
+    _checkLevel();
   }
 
   void _checkIfDungeon() {
@@ -126,20 +143,28 @@ class MainChar extends Person with KeyboardHandler {
   }
   
   void _loadBars() {
-    double x = -game.cameraWidth / 2 + 5;
-    double y = -game.cameraHeight / 2 + 5;
 
-    final healthBar = HeartManager(position: Vector2(x,y), maxHearts: 4, padding: .5, player: this);
+    healthBar = HeartManager(position: Vector2(xBar, yBar), maxHearts: level + 3, padding: .5, player: this);
     add(healthBar);
 
-    final manaBar = Bar(
-      position: Vector2(x - 5, y + 16),
-      type: 'Exp',
-      char: this,
-      name: 'player',
-    );
-    add(manaBar);
-
+    final expBar = ExpBar(position: Vector2(xBar + 1, yBar + 16), player: this);
+    add(expBar);
   }
+  
+  void _checkLevel() {
+    if (exp >= expToNextLevel) {
+      level++;
+
+      exp = 0;
+      expToNextLevel += expToNextLevel + 50;
+
+
+      remove(healthBar);
+
+      healthBar = HeartManager(position: Vector2(xBar, yBar), maxHearts: level + 3, padding: .5, player: this);
+      add(healthBar);
+    }
+  }
+  
 
 }

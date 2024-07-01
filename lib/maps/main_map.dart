@@ -18,8 +18,7 @@ class MainMap extends Level {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
-
+    
     final dungeonLayer = level.tileMap.getLayer<ObjectGroup>('Dungeons');
     for(final dung in dungeonLayer!.objects) {
       switch(dung.class_) {

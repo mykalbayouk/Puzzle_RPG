@@ -62,7 +62,6 @@ class Person extends SpriteAnimationComponent
 
   List<CollisionBlock> collisions = [];
 
-  double exp = 0;
 
   PlayerHitbox hitbox =
       PlayerHitbox(offsetX: 1, offsetY: 1, width: 14, height: 14);

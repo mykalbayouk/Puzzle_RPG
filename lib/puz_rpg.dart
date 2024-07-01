@@ -10,10 +10,10 @@ import 'package:puzzle_rpg/maps/main_map.dart';
 class PuzRPG extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   @override
-  Color backgroundColor() => const Color(0x00000000);
+  Color backgroundColor() => const Color.fromARGB(255, 255, 255, 255);
   MainChar player = MainChar();
   late JoystickComponent joystick;
-  bool showJoystick = false;
+  bool showJoystick = true;
 
   double cameraWidth = 250;
   double cameraHeight = 188;
@@ -62,20 +62,22 @@ class PuzRPG extends FlameGame
       case JoystickDirection.left:
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
-        // player.direction = PlayerDirection.left;
+        player.horizontalMovement--;
         break;
       case JoystickDirection.right:
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
-        // player.direction = PlayerDirection.right;
+        player.horizontalMovement++;
         break;
       case JoystickDirection.up:
-        // player.direction = PlayerDirection.up;
+        player.verticalMovement--;
         break;
       case JoystickDirection.down:
-        // player.direction = PlayerDirection.down;
+        player.verticalMovement++;
         break;
       case JoystickDirection.idle:
+        player.horizontalMovement = 0;
+        player.verticalMovement = 0;
         player.isIdle = true;
         break;
     }

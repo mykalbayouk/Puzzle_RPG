@@ -84,7 +84,6 @@ class DungeonOne extends Level {
   @override
   void update(double dt) {
     super.update(dt);
-
     _checkMechs();
   }
 
