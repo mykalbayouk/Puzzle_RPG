@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flame/components.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/tools/hearts.dart';

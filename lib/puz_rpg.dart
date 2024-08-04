@@ -20,7 +20,7 @@ class PuzRPG extends FlameGame
 
   int index = 0;
 
-  int playerSpawn = 1;
+  int playerSpawn = 0;
   bool gameOver = false;
 
 

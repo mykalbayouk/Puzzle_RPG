@@ -61,6 +61,8 @@ class MainChar extends Person with KeyboardHandler {
 
     final isE = keysPressed.contains(LogicalKeyboardKey.keyE);
 
+    final isQ = keysPressed.contains(LogicalKeyboardKey.keyQ);
+
     if (isKeyDown) {
       if (animation != attackDown &&
           animation != attackUp &&
@@ -84,6 +86,11 @@ class MainChar extends Person with KeyboardHandler {
         animation = interact;
         _checkIfMech();
       }
+
+      if (isQ){
+        exp += 25;
+      }
+
     } else {
       isIdle = true;
     }
@@ -153,16 +160,18 @@ class MainChar extends Person with KeyboardHandler {
   
   void _checkLevel() {
     if (exp >= expToNextLevel) {
-      level++;
+      if (level != 5) { 
+        level++;
+        exp = 0;
+        expToNextLevel += 50;
+        weaponDamage += 10;
+        health = 100;
+        health += level * 25;
+        remove(healthBar);
 
-      exp = 0;
-      expToNextLevel += expToNextLevel + 50;
-
-
-      remove(healthBar);
-
-      healthBar = HeartManager(position: Vector2(xBar, yBar), maxHearts: level + 3, padding: .5, player: this);
-      add(healthBar);
+        healthBar = HeartManager(position: Vector2(xBar, yBar), maxHearts: level + 3, padding: .5, player: this);
+        add(healthBar);        
+      }
     }
   }
   

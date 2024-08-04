@@ -62,6 +62,8 @@ class Person extends SpriteAnimationComponent
 
   List<CollisionBlock> collisions = [];
 
+  int weaponDamage = 30;
+
 
   PlayerHitbox hitbox =
       PlayerHitbox(offsetX: 1, offsetY: 1, width: 14, height: 14);
@@ -205,7 +207,7 @@ class Person extends SpriteAnimationComponent
         position: _newDistance(direction),
         player: this,
         type: 'Katana',
-        damage: 40);
+        damage: weaponDamage);
     switch (direction) {
       case 0:
         weapon.scale.y = -1;
