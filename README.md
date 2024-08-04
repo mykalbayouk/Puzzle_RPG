@@ -4,7 +4,7 @@ This is a project that I am working on to learn more about Game Development. The
 
 
 # Demo Video
-[![Demo Video]](https://youtu.be/H85N1oCvjR0)
+[Mini Youtube Demo](https://youtu.be/H85N1oCvjR0)
 
 
 # TODO
