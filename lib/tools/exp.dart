@@ -3,6 +3,8 @@ import 'package:flame/components.dart';
 import 'package:puzzle_rpg/characters/person.dart';
 import 'package:puzzle_rpg/puz_rpg.dart';
 
+
+/// Experience token on ground for the player
 class Exp extends SpriteComponent with HasGameRef<PuzRPG>, CollisionCallbacks{
   late double value;
 
@@ -10,6 +12,7 @@ class Exp extends SpriteComponent with HasGameRef<PuzRPG>, CollisionCallbacks{
     this.position = position;
   }
 
+  // dictates whether the token should move up and down
   int canBounce = 0;
 
 
@@ -30,6 +33,10 @@ class Exp extends SpriteComponent with HasGameRef<PuzRPG>, CollisionCallbacks{
     super.update(dt);
   }
 
+  /// while the canbounc value is below a certain threshold, the token will move up
+  /// then it will move down
+  /// then it will reset
+  /// this mimics a bouncing effect
   void _bounce() {
     if (canBounce < 20) {
       position.y -= .1;
@@ -46,6 +53,7 @@ class Exp extends SpriteComponent with HasGameRef<PuzRPG>, CollisionCallbacks{
     sprite = Sprite(gameRef.images.fromCache('Items/Food/Seed2.png'));
   }
 
+  /// When the player collides with the token, the player will gain the value of the token
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Person) {

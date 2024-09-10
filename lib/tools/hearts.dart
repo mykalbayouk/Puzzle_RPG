@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:puzzle_rpg/puz_rpg.dart';
 
+/// Each individual heart of the health bar
 class Hearts extends SpriteComponent with HasGameRef<PuzRPG>{
   
   Hearts({required Vector2 position}) {

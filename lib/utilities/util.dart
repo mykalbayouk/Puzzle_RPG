@@ -1,3 +1,6 @@
+/// Gets parameter one's hitbox then compares it to parameter two's position and hitbox
+/// to check if there is a collision
+/// returns true if there is a collision
 bool checkCollision(player, block) {
   final hitbox = player.hitbox;
 
@@ -21,6 +24,8 @@ bool checkCollision(player, block) {
       fixedY + playerHeight > blockY);
 }
 
+
+/// Checks if the main character is near the mechanic
 bool isNear(mainChar, mech) {
   // Check if the main character is near the mechanic
   return mainChar.position.distanceTo(mech.position) < 16;

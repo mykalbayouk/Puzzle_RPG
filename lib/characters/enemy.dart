@@ -7,6 +7,7 @@ import 'package:puzzle_rpg/tools/bar.dart';
 import 'package:puzzle_rpg/tools/exp.dart';
 import 'package:puzzle_rpg/utilities/util.dart';
 
+/// Enemy class
 class Enemy extends Person {
   Vector2 myPos;
   final double offNegX;
@@ -55,6 +56,7 @@ class Enemy extends Person {
     _calculateRange();
 
     _loadHealthBar();
+    // saves spawn location
     spawnLocation = position
         .clone(); // Assuming 'position' is the current position of the enemy
     player = game.player;
@@ -71,6 +73,7 @@ class Enemy extends Person {
     checkHorizontalCollisions(collisions);
     checkVerticalCollisions(collisions);
     _updateCanAttack();
+    // used to cheese some animations TODO: fix this
     ticker += dt;
     }
   }
@@ -82,6 +85,7 @@ class Enemy extends Person {
     super.onRemove();
   }
 
+  /// AI Movement logic for the enemy
   void _movement(double dt) {
     if (!playerInRange()) {
       speed = speedAvg;
@@ -110,6 +114,7 @@ class Enemy extends Person {
     return position.distanceTo(currentTarget) < 1.0; // Example threshold
   }
 
+  /// Needs to be using parent class movement, duplicate code somewhat TODO
   void moveToward(Vector2 target, double dt) {
     // Implement your movement logic here
     // This should move the enemy towards 'target' at a slow pace
@@ -135,6 +140,7 @@ class Enemy extends Person {
     }
   }
 
+/// Generates a random position within the range to mimic idle movement
   Vector2 _generateRandomPosition() {
     // Your existing method to generate a random position within the range
     double randomX =
@@ -144,6 +150,7 @@ class Enemy extends Person {
     return Vector2(randomX, randomY);
   }
 
+/// Calculates the range of the enemy based on Tile option set in map creator
   void _calculateRange() {
     rangeNegX = position.x - offNegX * tileSize;
     rangeNegY = position.y - offNegY * tileSize;
@@ -151,6 +158,7 @@ class Enemy extends Person {
     rangePosY = position.y + offPosY * tileSize;
   }
 
+  /// Checks if the player is within the range of the enemy
   bool playerInRange() {
     return player.position.x >= rangeNegX &&
         player.position.x <= rangePosX &&
@@ -158,6 +166,7 @@ class Enemy extends Person {
         player.position.y <= rangePosY;
   }
 
+  /// Manages the health of the enemy
   void _manageHealth() {
     if (health <= 0) {
       parent?.add(Exp(position: position, value: speedAvg/4));
@@ -165,6 +174,7 @@ class Enemy extends Person {
     }
   }
 
+  /// Returns the position outside of the player
   Vector2 _outSidePlayerPos() {
     switch (direction) {
       case Direction.up:
@@ -180,6 +190,8 @@ class Enemy extends Person {
     }
   }
 
+  /// Attacks the player
+  /// If the player is within range and the enemy has not attacked the player
   void _attackPlayer() async {
     speed = 0;
     animation!.loop = false;
@@ -211,11 +223,13 @@ class Enemy extends Person {
         attackPlayer = true;
     }
   }
-  
+
+  /// Loads the health bar for the enemy
   void _loadHealthBar() {
     add(Bar(position: Vector2(4,  -.5), char: this));
   }
   
+  /// Updates the attack status of the enemy
   void _updateCanAttack() {
     if (ticker - 5 > 0) {
       ticker = 0;

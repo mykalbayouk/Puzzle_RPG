@@ -2,6 +2,8 @@ import 'package:flame/components.dart';
 import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/tools/hearts.dart';
 
+
+/// Manages the hearts of the player in the bar
 class HeartManager extends PositionComponent {
   int maxHearts;
   final double padding;
@@ -30,7 +32,7 @@ class HeartManager extends PositionComponent {
     double x = 0;
     double y = 0;
 
-
+    // loads the hearts always to the top left of screen using the custom x and y value
     for (var i = 0; i < maxHearts; i++) {
       hearts.add(Hearts(
         position: Vector2(x, y),
@@ -48,6 +50,8 @@ class HeartManager extends PositionComponent {
     super.update(dt);
   }
 
+  /// Update the hearts
+  /// When the player takes damage, the hearts will update accordingly
   void _updateHearts() {
     double health = player.health;
     int fullHearts = (health / healthPerHeart).floor();
@@ -70,6 +74,7 @@ class HeartManager extends PositionComponent {
     }
   }
 
+  /// Increase the max hearts of the player when they level up
   void increaseMaxHearts() {
     maxHearts++;
   }

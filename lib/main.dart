@@ -10,6 +10,7 @@ void main() async{
   await Flame.device.fullScreen();
   await Flame.device.setLandscape();
 
+  // Create the game
   PuzRPG game = PuzRPG();
   runApp(GameWidget(game: kDebugMode ? PuzRPG() : game));
 }

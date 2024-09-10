@@ -5,6 +5,7 @@ import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/components/collision_block.dart';
 
 
+/// Parent class that the children levels will inherit from
 class Level extends World {
   String levelName;
   final MainChar char;
@@ -14,7 +15,7 @@ class Level extends World {
   List<CollisionBlock> collisions = [];
   List<Enemy> enemies = [];
 
-
+  /// Check if the level is loaded
   bool _isLoaded = false;
 
   @override
@@ -30,6 +31,7 @@ class Level extends World {
 
     add(level);
 
+    // Load the spawn points and collision blocks
     final spawnPointLayer = level.tileMap.getLayer<ObjectGroup>('Spawnpoints');
     for (final spawn in spawnPointLayer!.objects) {
       switch (spawn.class_) {

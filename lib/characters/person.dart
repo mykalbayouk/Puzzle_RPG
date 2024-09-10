@@ -15,6 +15,7 @@ enum Direction { up, down, left, right }
 
 enum CollisionSide { top, bottom, left, right, none }
 
+/// The parent class for all characters in the game
 class Person extends SpriteAnimationComponent
     with HasGameRef<PuzRPG>, CollisionCallbacks {
   String type;
@@ -28,6 +29,7 @@ class Person extends SpriteAnimationComponent
       required this.speed,
       required this.health});
 
+  // Animations
   late final SpriteAnimation idleUp;
   late final SpriteAnimation walkUp;
   late final SpriteAnimation attackUp;
@@ -52,6 +54,7 @@ class Person extends SpriteAnimationComponent
   bool isAttacking = false;
   bool isBeingAttacked = false;
 
+  // animations update speed
   final double stepTime = .1;
 
   double horizontalMovement = 0;
@@ -62,6 +65,7 @@ class Person extends SpriteAnimationComponent
 
   List<CollisionBlock> collisions = [];
 
+  //damage of the weapon this character wields
   int weaponDamage = 30;
 
 
@@ -95,6 +99,7 @@ class Person extends SpriteAnimationComponent
     super.update(dt);
   }
 
+  /// Load all animations for the character based on the type and name
   void _loadAllAnimations() {
     // Load all animations
     idleUp = _createAnimation(type, name, 'Idle', 1, 16);
@@ -116,6 +121,7 @@ class Person extends SpriteAnimationComponent
     interact = _createAnimation(type, name, 'Special2', 1, 0);
   }
 
+  /// Create an animation based on the type, name, description, amount, and start
   SpriteAnimation _createAnimation(
       String type, String name, String descrip, int amount, double start) {
     String dir = 'Actor/$type/$name/SeparateAnim/$descrip.png';
@@ -132,6 +138,7 @@ class Person extends SpriteAnimationComponent
     );
   }
 
+  /// update the player's movement based on either user or ai input
   void _updatePlayerMovement(double dt) {
     velocity.x = horizontalMovement * moveSpeed;
     velocity.y = verticalMovement * moveSpeed;
@@ -166,8 +173,10 @@ class Person extends SpriteAnimationComponent
 
     position.x += velocity.x * dt;
     position.y += velocity.y * dt;
-  }
+  } 
 
+
+  /// Update the attack animation based on the direction
   void _updateAttack() {
     if (isAttacking) {
       switch (direction) {
@@ -192,16 +201,11 @@ class Person extends SpriteAnimationComponent
     }
   }
 
-  // 0 - Up, 1 - Down, 2 - Left, 3 - Right
+  /// Attack in a direction based on the direction
+  /// 0 - up, 1 - down, 2 - left, 3 - right
+  /// The weapon will be created in the direction of the player  
   void _attack(int direction) {
-    // Implement your attack logic here
-    // current idea:
-    // seperate 4 directions into switch statement
-    // each case will create a new attack component but its rotation will be different based on direction
-    // the attack component will have a timer that will destroy it after a certain amount of time
-    // the attack component will have a hitbox that will check for collision with enemies
-    // if collision is detected, the enemy will take damage
-
+    // TODO: To be changed so weapon is not hard coded
     Weapon weapon;
     weapon = Weapon(
         position: _newDistance(direction),
@@ -227,6 +231,7 @@ class Person extends SpriteAnimationComponent
     add(weapon);
   }
 
+  /// Decides where weapon should spawn based on diretion of player
   Vector2 _newDistance(int direction) {
     switch (direction) {
       case 0:
@@ -242,6 +247,7 @@ class Person extends SpriteAnimationComponent
     }
   }
 
+/// Check for collisions in the vertical direction
   void checkVerticalCollisions(coll) {
     for (final collision in coll) {
       if (checkCollision(this, collision)) {
@@ -265,7 +271,7 @@ class Person extends SpriteAnimationComponent
       }
     }
   }
-
+/// Check for collisions in the horizontal direction
   void checkHorizontalCollisions(coll) {
     for (final collision in coll) {
       if (checkCollision(this, collision)) {
@@ -289,7 +295,7 @@ class Person extends SpriteAnimationComponent
       }
     }
   }
-
+/// Determine which side of the player is colliding with the block
   CollisionSide _getCollisionSide(collision) {
     final playerX = position.x + hitbox.offsetX;
     final playerY = position.y + hitbox.offsetY;
@@ -314,7 +320,7 @@ class Person extends SpriteAnimationComponent
 
     return CollisionSide.none;
   }
-
+/// Handle the position of the player when colliding diagonally
   void handleDiagonalPosition(collision) {
     final side = _getCollisionSide(collision);
     switch (side) {
@@ -349,7 +355,7 @@ class Person extends SpriteAnimationComponent
     if (other is Weapon) isBeingAttacked = false;
     super.onCollisionEnd(other);
   }
-
+/// Flash the player when they are attacked
   void _personFlash(double dt) {
     opacity = 0.5;
     Future.delayed(const Duration(milliseconds: 100), () {

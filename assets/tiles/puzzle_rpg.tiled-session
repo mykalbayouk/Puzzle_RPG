@@ -3,45 +3,89 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "MainMap.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "MainMap.tmx": {
             "expandedObjectLayers": [
-                17,
                 19,
                 6,
+                17,
                 14
             ],
-            "scale": 0.6768,
+            "scale": 0.5136,
             "selectedLayer": 9,
             "viewCenter": {
-                "x": 893.1737588652483,
-                "y": 791.9621749408984
+                "x": 787.5778816199377,
+                "y": 961.8380062305296
             }
         },
         "Pipes.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "TilesetDungeon.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TilesetField.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TilesetFloorB.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TilesetFloorDetail.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TilesetHole.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TilesetHouse.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TilesetNature.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TilesetRelief.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TilesetVillageAbandoned.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "TilesetWater.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "dungeon_one.tmx": {
             "expandedObjectLayers": [
-                2,
-                7,
                 3,
-                5
+                5,
+                7,
+                2
             ],
             "scale": 1.9891,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 110.35141521291035,
-                "y": 163.89321803830876
+                "x": 160.1226685435624,
+                "y": 157.35759891408173
             }
         },
         "houses.tsx": {
             "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "main_map.tsx": {
+            "scaleInDock": 1.5,
             "scaleInEditor": 1
         }
     },
@@ -52,13 +96,35 @@
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
+        "dungeon_one.tmx",
+        "MainMap.tmx",
+        "TilesetHouse.tsx",
+        "TilesetVillageAbandoned.tsx",
+        "main_map.tsx",
+        "TilesetRelief.tsx",
+        "TilesetWater.tsx",
+        "TilesetFloorDetail.tsx",
+        "TilesetFloorB.tsx",
+        "Pipes.tsx",
+        "TilesetField.tsx",
+        "TilesetNature.tsx",
+        "TilesetDungeon.tsx",
+        "TilesetHole.tsx"
     ],
     "project": "puzzle_rpg.tiled-project",
     "recentFiles": [
         "dungeon_one.tmx",
-        "MainMap.tmx",
+        "TilesetHole.tsx",
+        "TilesetDungeon.tsx",
+        "TilesetNature.tsx",
+        "TilesetField.tsx",
         "Pipes.tsx",
-        "houses.tsx"
+        "TilesetFloorB.tsx",
+        "TilesetFloorDetail.tsx",
+        "TilesetWater.tsx",
+        "TilesetRelief.tsx",
+        "main_map.tsx",
+        "TilesetVillageAbandoned.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

@@ -4,6 +4,7 @@ import 'package:puzzle_rpg/characters/person.dart';
 import 'package:puzzle_rpg/puz_rpg.dart';
 
 
+/// Weapon that the player can use to attack enemies
 class Weapon extends SpriteComponent with HasGameRef<PuzRPG>, CollisionCallbacks  {
   late Person player;
   late String type;

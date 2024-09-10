@@ -4,6 +4,7 @@ import 'package:puzzle_rpg/components/mechanic.dart';
 import 'package:puzzle_rpg/maps/dungeons/dungeon_entrance.dart';
 import 'package:puzzle_rpg/maps/level.dart';
 
+/// The first dungeon of the game
 class DungeonOne extends Level {
   
 
@@ -22,7 +23,7 @@ class DungeonOne extends Level {
   Future<void> onLoad() async {
     await super.onLoad();
     
-
+    // Loads the mechanics of the dungeon
     final mechsLayer = level.tileMap.getLayer<ObjectGroup>('Mechs');
     for(final mech in mechsLayer!.objects) {
       switch(mech.class_) {
@@ -87,7 +88,8 @@ class DungeonOne extends Level {
     _checkMechs();
   }
 
+  /// Check the mechanics of the dungeon, when completed, player gets reward TODO: Implement the reward
   void _checkMechs() {
-    // todo
+    // Todo: Implement the logic for the mechanics
   }
 }

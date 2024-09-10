@@ -4,6 +4,7 @@ import 'package:puzzle_rpg/characters/main_char.dart';
 import 'package:puzzle_rpg/maps/dungeons/dungeon_entrance.dart';
 import 'package:puzzle_rpg/maps/level.dart';
 
+/// The main map of the game
 class MainMap extends Level {
   MainChar player;
   int playerSpawn;
@@ -17,8 +18,9 @@ class MainMap extends Level {
 
   @override
   Future<void> onLoad() async {
-    await super.onLoad();
-    
+    await super.onLoad(); 
+
+    // Loads the dungeons and player spawn points
     final dungeonLayer = level.tileMap.getLayer<ObjectGroup>('Dungeons');
     for(final dung in dungeonLayer!.objects) {
       switch(dung.class_) {
